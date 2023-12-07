@@ -1,12 +1,120 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Simple Gantt Chart</title>
+  <title>Simple Gantt Chart</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
 </head>
+
 <body>
+  <style>
+    body,
+    html {
+      padding: 15px;
+      background: #222;
+      color: #eee;
+      font-family: sans-serif;
+      font-size: 14px;
+    }
 
-<h1>Simple Gantt Chart</h1>
-<p>demo</p>
+    table {
+      border-collapse: collapse;
+      background: #333;
+    }
 
+    th,
+    td {
+      border-bottom: solid 5px #222;
+      padding: 7px 9px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #111;
+    }
+
+    span {
+      vertical-align: middle;
+    }
+  </style>
+
+  <h1>Simple Gantt Chart</h1>
+
+  <table id="dashboard"></table>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <script>
+    const support = [];
+
+    const cate = {
+      "Bug": "bug_report",
+      "Feature": "grade",
+      "Task": "task_alt",
+    };
+
+    const info = [
+      { "key": "cate", "name": "Cate." },
+      { "key": "link", "name": "Jira ID" },
+      { "key": "proj", "name": "Project" },
+      { "key": "title", "name": "Title" },
+    ];
+
+    const data = [
+      {
+        "link": "JIRA-1234",
+        "cate": "Task",
+        "proj": "Banana",
+        "title": "Kernel upstream for banana driver",
+        "id": "Date.now()"
+      },
+      {
+        "link": "JIRA-1235",
+        "cate": "Feature",
+        "proj": "Cherry",
+        "title": "AI generated cherry animation on screen",
+        "id": "Date.now()"
+      },
+      {
+        "link": "JIRA-1236",
+        "cate": "Bug",
+        "proj": "Durian",
+        "title": "The color of the durian logo is shifted after suspend/resume",
+        "id": "Date.now()"
+      },
+    ];
+
+    let table = $("#dashboard");
+    let tr = table.append($("<tr>"));
+
+    info.forEach(i => tr.append($("<th>").text(i["name"])));
+
+    data.forEach(function (raw) {
+      tr = table.append($("<tr>"));
+
+      info.forEach(function (i) {
+        // category
+        if (i["key"] == "cate") {
+          let c = raw[i["key"]];
+          if (c && cate[c]) {
+            let span = $("<span>")
+              .addClass("material-symbols-outlined")
+              .text(cate[c]);
+            tr.append($("<td>").append($("<center>").append(span)));
+          }
+          return;
+        }
+
+        // headers
+        if (raw[i["key"]] != undefined)
+          tr.append($("<td>").text(raw[i["key"]]));
+      });
+    });
+
+  </script>
 </body>
+
 </html>
