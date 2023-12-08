@@ -1,0 +1,64 @@
+body,
+html {
+	padding: 15px;
+	background: #222;
+	color: #fff;
+	font-family: sans-serif;
+	font-size: 13px;
+}
+
+span {
+	vertical-align: middle;
+}
+
+table {
+	border-collapse: collapse;
+	background: #333;
+	table-layout: fixed;
+}
+
+th,
+td {
+	border-bottom: solid 7px #222;
+	text-align: left;
+	vertical-align: middle;
+	white-space: nowrap;
+	color: #ddd;
+	padding: 6px 9px;
+}
+
+th {
+	background: #111;
+	color: #eee;
+}
+
+td {
+	padding: 0 9px;
+}
+
+td.time {
+	padding: 0;
+	min-width: 11px;
+	border-left: dotted 1px #222;
+	text-align: center;
+}
+
+td.marked {
+	background: #996;
+}
+
+td.ot {
+	background: #930;
+}
+
+td.cate, th.cate {
+	text-align: center;
+}
+
+td.col, th.col {
+	border-left: solid 5px #222;
+}
+
+td.err {
+	background: red;
+}
