@@ -19,7 +19,7 @@ table {
 
 th,
 td {
-	border-bottom: solid 7px #222;
+	border-bottom: solid 8px #222;
 	text-align: left;
 	vertical-align: middle;
 	white-space: nowrap;
@@ -45,6 +45,9 @@ td.time {
 
 td.marked {
 	background: #996;
+}
+td.marked.leave {
+	background: #96f;
 }
 
 td.ot {

@@ -4,7 +4,10 @@ const settings = {
 	"icons": {
 		"Bug": "bug_report",
 		"Feature": "grade",
-		"Task": "task_alt"
+		"Task": "task_alt",
+		"Meeting": "event",
+		"Leave": "logout",
+		"Others": "question_mark"
 	},
 	"days": [ "Mon", "Tue", "Wed", "Thu", "Fri" ],
 	"headers": [
@@ -45,6 +48,7 @@ function weekly_report(table)
 	logs.forEach(function (log) {
 		let id = log["job"];
 		let job = jobs.find(job => job["id"] == id);
+		let cate = undefined;
 
 		if (!job) {
 			msg("job-" + id + ": not found");
@@ -68,6 +72,7 @@ function weekly_report(table)
 					.addClass("material-symbols-outlined")
 					.text(icons[info]);
 				td.append(span);
+				cate = info.toLowerCase();
 			} else {
 				td.text(info);
 			}
@@ -84,6 +89,7 @@ function weekly_report(table)
 				let td = $("<td>")
 					.addClass("time")
 					.addClass(day)
+					.addClass(cate)
 					.text(" ");
 				if (i == 0)
 					td.addClass("col");
