@@ -1,5 +1,7 @@
 const debugging = 1;
 
+const hour = 8; // working hour
+
 const settings = {
 	"icons": {
 		"Bug": "bug_report",
@@ -18,8 +20,6 @@ const settings = {
 	]
 };
 
-const hour = 8; // working hour
-
 function debug(msg)
 {
 	if (!debugging)
@@ -35,7 +35,7 @@ function tip(msg)
 	return span;
 }
 
-function weekly_report(table)
+function render_weekly_report(table)
 {
 	let days = settings["days"];
 	let headers = settings["headers"];
@@ -144,12 +144,37 @@ function weekly_report(table)
 	});
 }
 
-function render()
+function activate(obj)
 {
-	weekly_report($("#weekly"));
+	obj.addClass("active");
 }
 
-render();
+function deactivate(obj)
+{
+	obj.removeClass("active");
+}
+
+function render_tabs(obj)
+{
+	let tabs = obj.children("div");
+	let labs = obj.children(".label").children();
+
+	activate(tabs.first());
+	activate(labs.first());
+	labs.each(function (){
+		$(this).click(function() {
+			let target = $(this).children("a").first().attr("href");
+
+			labs.each(function () {deactivate($(this));});
+			tabs.each(function () {deactivate($(this));});
+			activate($(this));
+			activate($(target));
+		});
+	});
+}
+
 $(document).ready(function (){
-	$("#face").css("visibility", "visible");
+	render_weekly_report($("#weekly"));
+	render_tabs($("#face"));
+	$("#face").removeClass("hide");
 });
