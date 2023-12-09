@@ -11,7 +11,7 @@ const jobs = [
 		"cate": "OOO",
 		"proj": "-",
 		"title": "Out of the office",
-		"id": "1702052632787ac632ㄑca54e30"
+		"id": "1702052632787ac632ca54e30",
 	},
 	{
 		"link": "-",

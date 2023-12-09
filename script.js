@@ -11,7 +11,7 @@ const settings = {
 	},
 	"days": [ "Mon", "Tue", "Wed", "Thu", "Fri" ],
 	"headers": [
-		{ "key": "cate", "name": "Cate." },
+		{ "key": "cate", "name": " " },
 		{ "key": "link", "name": "Jira ID" },
 		{ "key": "proj", "name": "Project" },
 		{ "key": "title", "name": "Title" },
@@ -24,7 +24,7 @@ function debug(msg)
 {
 	if (!debugging)
 		return;
-	$("body").append($("<span>").addClass("code").text(msg));
+	$("body").append($("<div>").addClass("code").text(msg));
 }
 
 function tip(msg)

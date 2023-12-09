@@ -5,7 +5,6 @@ html {
 	color: #fff;
 	font-family: sans-serif;
 	font-size: 13px;
-
 }
 
 span {
@@ -14,7 +13,10 @@ span {
 
 table {
 	border-collapse: collapse;
-	table-layout: fixed;
+	margin: 15px 0;
+}
+table.weekly {
+	font-size: 11px;
 }
 
 th,
@@ -41,7 +43,6 @@ td.time {
 	padding: 0;
 	min-width: 11px;
 	border-left: dotted 1px #222;
-	font-size: 11px;
 	font-family: monospace;
 }
 td.marked {
@@ -60,12 +61,11 @@ td.err {
 	background: red;
 }
 td.title {
-	max-width: 150px;
+	max-width: 160px;
 	overflow: hidden;
 }
 td.sum {
 	font-family: monospace;
-	font-size: 10px;
 }
 td.cate, td.time, td.sum, th.cate, th.sum {
 	text-align: center;
@@ -96,9 +96,7 @@ tr:hover td.marked.ooo {
 	background: #ffc;
 	color: #222;
 	padding: 3px 8px;
-	padding-bottom: 2px;
 	border-radius: 5px;
-	font-size: 12px;
 	font-family: sans-serif;
 	margin-left: 6px;
 	margin-top: -10px;
