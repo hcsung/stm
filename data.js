@@ -8,10 +8,17 @@ const jobs = [
 	},
 	{
 		"link": "-",
-		"cate": "Leave",
+		"cate": "OOO",
 		"proj": "-",
-		"title": "Out-Of-Office",
-		"id": "1702052632787ac632ca54e30"
+		"title": "Out of the office",
+		"id": "1702052632787ac632ㄑca54e30"
+	},
+	{
+		"link": "-",
+		"cate": "OOO",
+		"proj": "-",
+		"title": "Holiday",
+		"id": "170210275179270bb2065415e"
 	},
 	{
 		"link": "JIRA-1234",

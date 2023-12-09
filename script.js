@@ -6,7 +6,7 @@ const settings = {
 		"Feature": "grade",
 		"Task": "task_alt",
 		"Meeting": "event",
-		"Leave": "logout",
+		"OOO": "logout",
 		"Others": "question_mark"
 	},
 	"days": [ "Mon", "Tue", "Wed", "Thu", "Fri" ],
@@ -47,6 +47,8 @@ function weekly_report(table)
 		.addClass(header["key"])
 		.text(header["name"])));
 
+	tr.append($("<th>").addClass("col sum").text("\u2211"));
+
 	days.forEach(day => tr.append($("<th>")
 		.addClass("col")
 		.addClass(day.toLowerCase())
@@ -59,6 +61,7 @@ function weekly_report(table)
 	logs.forEach(function (log) {
 		let id = log["job"];
 		let job = jobs.find(job => job["id"] == id);
+		let sum = $("<td>");
 		let cate = undefined;
 
 		if (!job) {
@@ -93,7 +96,12 @@ function weekly_report(table)
 			tr.append(td);
 		});
 
+		sum.addClass("col");
+		sum.addClass("sum");
+		tr.append(sum);
+
 		let d = 0;
+		let total = 0;
 		days.forEach(function (day) {
 			let rec = log["rec"];
 
@@ -105,10 +113,14 @@ function weekly_report(table)
 					.addClass(day)
 					.addClass(cate)
 					.text(" ");
+
 				if (i == 0)
 					td.addClass("col");
-				if (tm > 0)
+
+				if (tm > 0) {
 					td.addClass("marked");
+					total += tm;
+				}
 
 				if (tm > 1) {
 					if (i != hour - 1) {
@@ -127,6 +139,7 @@ function weekly_report(table)
 			}
 			d++;
 		});
+		sum.text(total);
 		table.append(tr);
 	});
 }
@@ -136,4 +149,7 @@ function render()
 	weekly_report($("#weekly"));
 }
 
-$(document).ready(render);
+render();
+$(document).ready(function (){
+	$("#face").css("visibility", "visible");
+});
