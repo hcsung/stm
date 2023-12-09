@@ -157,13 +157,26 @@ function deactivate(obj)
 function render_tabs(obj)
 {
 	let tabs = obj.children("div");
-	let labs = obj.children(".label").children();
+	let labs = obj.children(".label");
+	let hash = window.location.hash;
+	let curr_tab = hash ? $(hash) : undefined;
+	let curr_lab;
 
-	activate(tabs.first());
-	activate(labs.first());
+	if (curr_tab) {
+		labs.each(function () {
+			if ($(this).attr("href") == hash)
+				curr_lab = $(this);
+		});
+	} else {
+		curr_tab = tabs.first();
+		curr_lab = labs.first();
+	}
+
+	activate(curr_tab);
+	activate(curr_lab);
 	labs.each(function (){
-		$(this).click(function() {
-			let target = $(this).children("a").first().attr("href");
+		$(this).on("click", function() {
+			let target = $(this).attr("href");
 
 			labs.each(function () {deactivate($(this));});
 			tabs.each(function () {deactivate($(this));});
@@ -173,8 +186,23 @@ function render_tabs(obj)
 	});
 }
 
+function onresize()
+{
+	let tab = $("div.active");
+	let dash = tab.children(".dashboard");
+	let diff = dash.width() - tab.width();
+	let width = dash.find("th.title").width();
+
+	width = ~~(width - diff);
+	$(".title").css("max-width", width > 40 ? width : 40);
+}
+
 $(document).ready(function (){
-	render_weekly_report($("#weekly"));
 	render_tabs($("#face"));
+	render_weekly_report($("#weekly").children(".dashboard"));
+
+	$(window).on("resize", onresize);
+
 	$("#face").removeClass("hide");
+	onresize(); // force update
 });
