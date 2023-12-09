@@ -24,7 +24,8 @@ a {
 	text-decoration: none;
 }
 
-#weekly th, td {
+#weekly th,
+#weekly td {
 	border-bottom: solid 7px #222;
 	text-align: left;
 	vertical-align: middle;
@@ -59,7 +60,8 @@ a {
 #weekly td.ot {
 	background:  rgba(200, 50, 0, 0.5);
 }
-#weekly td.col, th.col {
+#weekly td.col,
+#weekly th.col {
 	border-left: solid 2px #222;
 }
 #weekly td.err {
@@ -71,7 +73,11 @@ a {
 #weekly td.sum {
 	font-family: monospace;
 }
-#weekly td.cate, td.time, td.sum, th.cate, th.sum {
+#weekly td.cate,
+#weekly td.time,
+#weekly td.sum,
+#weekly th.cate,
+#weekly th.sum {
 	text-align: center;
 }
 
