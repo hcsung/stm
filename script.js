@@ -1,4 +1,4 @@
-const debug = 1;
+const debugging = 1;
 
 const settings = {
 	"icons": {
@@ -20,11 +20,19 @@ const settings = {
 
 const hour = 8; // working hour
 
-function msg(m)
+function debug(msg)
 {
-	if (!debug)
+	if (!debugging)
 		return;
-	$("body").append($("<p>").text(m));
+	$("body").append($("<span>").addClass("code").text(msg));
+}
+
+function tip(msg)
+{
+	let span = $("<span>");
+	span.addClass("tip");
+	span.text(msg);
+	return span;
 }
 
 function weekly_report(table)
@@ -33,7 +41,7 @@ function weekly_report(table)
 	let headers = settings["headers"];
 	let icons = settings["icons"];
 
-	let tr = table.append($("<tr>"));
+	let tr = $("<tr>").addClass("non-select");
 
 	headers.forEach(header => tr.append($("<th>")
 		.addClass(header["key"])
@@ -45,17 +53,20 @@ function weekly_report(table)
 		.attr("colspan", hour)
 		.text(day)));
 
+	// headers
+	table.append(tr);
+
 	logs.forEach(function (log) {
 		let id = log["job"];
 		let job = jobs.find(job => job["id"] == id);
 		let cate = undefined;
 
 		if (!job) {
-			msg("job-" + id + ": not found");
+			debug("job-" + id + ": not found");
 			return;
 		}
 
-		tr = table.append($("<tr>"));
+		tr = $("<tr>");
 
 		headers.forEach(function (header) {
 			let key = header["key"];
@@ -63,7 +74,7 @@ function weekly_report(table)
 			let td = $("<td>").addClass(key);
 
 			if (!info) {
-				msg("job-" + id + ": no key: " + key);
+				debug("job-" + id + ": no key: " + key);
 				return;
 			}
 
@@ -71,7 +82,10 @@ function weekly_report(table)
 				let span = $("<span>")
 					.addClass("material-symbols-outlined")
 					.text(icons[info]);
+				td.addClass("tooltip");
+				td.addClass("non-select");
 				td.append(span);
+				td.append(tip(info));
 				cate = info.toLowerCase();
 			} else {
 				td.text(info);
@@ -102,21 +116,24 @@ function weekly_report(table)
 						td.addClass("err");
 						td.text("X");
 					} else {
+						tm = tm > 9 ? "+" : tm;
 						td.addClass("ot");
+						td.addClass("tooltip");
+						td.text(tm);
+						td.append(tip("OT"));
 					}
 				}
 				tr.append(td);
 			}
 			d++;
 		});
+		table.append(tr);
 	});
 }
 
 function render()
 {
-	let table = $("#weekly");
-
-	weekly_report(table);
+	weekly_report($("#weekly"));
 }
 
 $(document).ready(render);

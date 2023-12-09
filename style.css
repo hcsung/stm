@@ -24,7 +24,7 @@ td {
 	vertical-align: middle;
 	white-space: nowrap;
 	color: #ddd;
-	padding: 6px 9px;
+	padding: 6px 7px;
 }
 
 th {
@@ -33,7 +33,7 @@ th {
 }
 
 td {
-	padding: 0 9px;
+	padding: 0 7px;
 }
 
 td.time {
@@ -41,6 +41,8 @@ td.time {
 	min-width: 11px;
 	border-left: dotted 1px #222;
 	text-align: center;
+	font-size: 11px;
+	font-family: monospace;
 }
 
 td.marked {
@@ -64,4 +66,44 @@ td.col, th.col {
 
 td.err {
 	background: red;
+}
+
+.non-select {
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+.tooltip .tip {
+	visibility: hidden;
+	position: absolute;
+	background: #ffc;
+	color: #222;
+	padding: 3px 8px;
+	padding-bottom: 2px;
+	border-radius: 5px;
+	font-size: 12px;
+	font-family: sans-serif;
+	margin-left: 6px;
+	margin-top: -10px;
+}
+.tooltip .tip::after {
+	content: " ";
+	position: absolute;
+	top: 50%; /* At the bottom of the tooltip */
+	left: 0;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent #ffc transparent;
+}
+.tooltip:hover .tip{
+	visibility: visible;
+}
+
+.code {
+	font-family: monospace;
+	background: #555;
+	padding: 6px 9px;
+	border-radius: 9px;
 }

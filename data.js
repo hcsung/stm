@@ -10,7 +10,7 @@ const jobs = [
 		"link": "-",
 		"cate": "Leave",
 		"proj": "-",
-		"title": "Personal leave",
+		"title": "Out-Of-Office",
 		"id": "1702052632787ac632ca54e30"
 	},
 	{
