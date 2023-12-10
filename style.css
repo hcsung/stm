@@ -37,6 +37,7 @@ a {
 #weekly .dashboard {
 	font-size: 13px;
 }
+
 #weekly .dashboard th,
 #weekly .dashboard td {
 	border-bottom: solid 7px #222;
@@ -162,14 +163,18 @@ a {
 	border-radius: 9px;
 }
 
-.tab div {
+div.tab {
 	display: none;
 	background: #222;
-	padding: 30px;
+	padding: 35px;
 	border-radius: 0 9px 9px 9px;
 }
 
-.tab a.label {
+div.dashboard {
+	overflow: scroll;
+}
+
+.tabs a.label {
 	list-style-type: none;
 	display: inline-block;
 	padding: 9px 15px;
@@ -180,7 +185,7 @@ a {
 	font-weight: bold;
 }
 
-.tab a.active {
+.tabs a.active {
 	background: #222;
 	color: #fff;
 }

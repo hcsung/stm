@@ -35,12 +35,11 @@ function tip(msg)
 	return span;
 }
 
-function render_weekly_report(table)
+function render_weekly_report(tbl)
 {
 	let days = settings["days"];
 	let headers = settings["headers"];
 	let icons = settings["icons"];
-
 	let tr = $("<tr>").addClass("non-select");
 
 	headers.forEach(header => tr.append($("<th>")
@@ -56,7 +55,7 @@ function render_weekly_report(table)
 		.text(day)));
 
 	// headers
-	table.append(tr);
+	tbl.append(tr);
 
 	logs.forEach(function (log) {
 		let id = log["job"];
@@ -140,7 +139,7 @@ function render_weekly_report(table)
 			d++;
 		});
 		sum.text(total);
-		table.append(tr);
+		tbl.append(tr);
 	});
 }
 
@@ -156,8 +155,8 @@ function deactivate(obj)
 
 function render_tabs(obj)
 {
-	let tabs = obj.children("div");
-	let labs = obj.children(".label");
+	let tabs = obj.find("div");
+	let labs = obj.find(".label");
 	let hash = window.location.hash;
 	let curr_tab = hash ? $(hash) : undefined;
 	let curr_lab;
@@ -189,17 +188,20 @@ function render_tabs(obj)
 function onresize()
 {
 	let tab = $("div.active");
-	let dash = tab.children(".dashboard");
-	let diff = dash.width() - tab.width();
-	let width = dash.find("th.title").width();
+	let tbl = tab.find(".dashboard").find("table");
+	let diff = tbl.width() - tab.width();
+	let width = tbl.find("th.title").width();
+	let min = 120;
 
 	width = ~~(width - diff);
-	$(".title").css("max-width", width > 40 ? width : 40);
+	if (width < min)
+		width = min;
+	$(".title").css("max-width", width);
 }
 
 $(document).ready(function (){
 	render_tabs($("#face"));
-	render_weekly_report($("#weekly").children(".dashboard"));
+	render_weekly_report($("#weekly").find(".dashboard").find("table"));
 
 	$(window).on("resize", onresize);
 

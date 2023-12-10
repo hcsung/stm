@@ -10,19 +10,21 @@
 </head>
 
 <body>
-	<div id="face" class="tab hide">
+	<div id="face" class="tabs hide">
 		<h1>Simple Gantt Chart</h1>
 		<a class="label" href="#weekly">Weekly</a>
 		<a class="label" href="#summary">Summary</a>
 		<a class="label" href="#settings">Settings</a>
-		<div id="weekly">
+		<div id="weekly" class="tab">
 			<h2>Weekly Report</h2>
-			<table class="dashboard"></table>
+			<div class="dashboard">
+				<table></table>
+			</div>
 		</div>
-		<div id="summary">
+		<div id="summary" class="tab">
 			<h2>Summary</h2>
 		</div>
-		<div id="settings">
+		<div id="settings" class="tab">
 			<h2>Settings</h2>
 		</div>
 	</div>
