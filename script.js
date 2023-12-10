@@ -1,45 +1,33 @@
 const debugging = 1;
 
 const hour = 8; // working hour
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-const settings = {
-	"icons": {
-		"Bug": "bug_report",
-		"Feature": "grade",
-		"Task": "task_alt",
-		"Meeting": "event",
-		"OOO": "logout",
-		"Others": "question_mark"
-	},
-	"days": [ "Mon", "Tue", "Wed", "Thu", "Fri" ],
-	"headers": [
-		{ "key": "cate", "name": " " },
-		{ "key": "link", "name": "Jira ID" },
-		{ "key": "proj", "name": "Project" },
-		{ "key": "title", "name": "Title" },
-	]
-};
-
-function debug(msg)
-{
+function debug(msg) {
 	if (!debugging)
 		return;
 	$("body").append($("<div>").addClass("code").text(msg));
 }
 
-function tip(msg)
-{
+function match(a, b) {
+	return String(a).toLowerCase() == String(b).toLowerCase();
+}
+
+function tip(msg) {
 	let span = $("<span>");
 	span.addClass("tip");
 	span.text(msg);
 	return span;
 }
 
-function render_weekly_report(tbl)
-{
-	let days = settings["days"];
-	let headers = settings["headers"];
-	let icons = settings["icons"];
+function render_weekly(tbl) {
+	const headers = [
+		{ "key": "cate", "name": " " },
+		{ "key": "link", "name": "Jira ID" },
+		{ "key": "proj", "name": "Project" },
+		{ "key": "title", "name": "Title" },
+	];
+
 	let tr = $("<tr>").addClass("non-select");
 
 	headers.forEach(header => tr.append($("<th>")
@@ -82,13 +70,21 @@ function render_weekly_report(tbl)
 
 			if (key == "cate") {
 				let span = $("<span>")
-					.addClass("material-symbols-outlined")
-					.text(icons[info]);
+					.addClass("material-symbols-outlined");
+
+				cate = categories.find(c => match(c["name"], info));
+				if (cate) {
+					span.text(cate["icon"]);
+					// for adding class later
+					cate = info.toLowerCase();
+				} else {
+					span.text("error");
+				}
+
 				td.addClass("tooltip");
 				td.addClass("non-select");
 				td.append(span);
 				td.append(tip(info));
-				cate = info.toLowerCase();
 			} else {
 				td.text(info);
 			}
@@ -143,20 +139,17 @@ function render_weekly_report(tbl)
 	});
 }
 
-function activate(obj)
-{
+function activate(obj) {
 	obj.addClass("active");
 }
 
-function deactivate(obj)
-{
+function deactivate(obj) {
 	obj.removeClass("active");
 }
 
-function render_tabs(obj)
-{
-	let tabs = obj.find("div");
-	let labs = obj.find(".label");
+function render_tabs(obj) {
+	let tabs = obj.children(".tab");
+	let labs = obj.children(".label");
 	let hash = window.location.hash;
 	let curr_tab = hash ? $(hash) : undefined;
 	let curr_lab;
@@ -173,24 +166,41 @@ function render_tabs(obj)
 
 	activate(curr_tab);
 	activate(curr_lab);
-	labs.each(function (){
-		$(this).on("click", function() {
+	labs.each(function () {
+		$(this).on("click", function () {
 			let target = $(this).attr("href");
 
-			labs.each(function () {deactivate($(this));});
-			tabs.each(function () {deactivate($(this));});
+			labs.each(function () { deactivate($(this)); });
+			tabs.each(function () { deactivate($(this)); });
 			activate($(this));
 			activate($(target));
 		});
 	});
 }
 
-function onresize()
-{
+function render_sub_tabs(obj) {
+	let tabs = obj.children(".sub-tab");
+	let btns = obj.children("button");
+
+	activate(btns.first());
+	activate(tabs.first());
+	btns.each(function () {
+		$(this).on("click", function () {
+			let target = $(this).attr("value");
+
+			btns.each(function () { deactivate($(this)); });
+			tabs.each(function () { deactivate($(this)); });
+			activate($(this));
+			activate($(target));
+		});
+	});
+}
+
+function onresize() {
 	let tab = $("div.active");
-	let tbl = tab.find(".dashboard").find("table");
+	let tbl = tab.children(".dashboard").children("table");
 	let diff = tbl.width() - tab.width();
-	let width = tbl.find("th.title").width();
+	let width = tbl.children("th.title").width();
 	let min = 120;
 
 	width = ~~(width - diff);
@@ -199,9 +209,11 @@ function onresize()
 	$(".title").css("max-width", width);
 }
 
-$(document).ready(function (){
-	render_tabs($("#face"));
-	render_weekly_report($("#weekly").find(".dashboard").find("table"));
+$(document).ready(function () {
+	render_weekly($("#weekly").children(".dashboard").children("table"));
+
+	$(".tabs").each(function () { render_tabs($(this)); });
+	$(".sub-tabs").each(function () { render_sub_tabs($(this)); });
 
 	$(window).on("resize", onresize);
 

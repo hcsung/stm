@@ -16,7 +16,7 @@
 		<a class="label" href="#summary">Summary</a>
 		<a class="label" href="#settings">Settings</a>
 		<div id="weekly" class="tab">
-			<h2>Weekly Report</h2>
+			<h3>W52</h3>
 			<div class="dashboard">
 				<table></table>
 			</div>
@@ -24,12 +24,19 @@
 		<div id="summary" class="tab">
 			<h2>Summary</h2>
 		</div>
-		<div id="settings" class="tab">
-			<h2>Settings</h2>
+		<div id="settings" class="tab sub-tabs">
+			<button class="label" value="#job">Job</button>
+			<button class="label" value="#project">Project</button>
+			<button class="label" value="#client">Client</button>
+			<button class="label" value="#others">Others</button>
+			<div id="job" class="sub-tab">Job</div>
+			<div id="project" class="sub-tab">Project</div>
+			<div id="client" class="sub-tab">Client</div>
+			<div id="others" class="sub-tab">Others</div>
 		</div>
 	</div>
 	<script src="jquery-3.7.1.min.js"></script>
-	<script src="data.js"></script>
+	<script src="db.js"></script>
 	<script src="script.js"></script>
 </body>
 

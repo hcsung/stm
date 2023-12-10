@@ -89,7 +89,7 @@ a {
 }
 
 #weekly .dashboard td.title {
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 #weekly .dashboard td.sum {
@@ -163,37 +163,70 @@ a {
 	border-radius: 9px;
 }
 
-div.tab {
+.tabs div.tab,
+.sub-tabs div.sub-tab {
 	display: none;
+}
+
+.tabs div.tab {
 	background: #222;
 	padding: 35px;
 	border-radius: 0 9px 9px 9px;
 }
 
-div.dashboard {
+.tabs div.dashboard {
 	overflow: scroll;
 }
 
 .tabs a.label {
 	list-style-type: none;
 	display: inline-block;
-	padding: 9px 15px;
-	margin-right: 3px;
+	padding: 9px 14px;
+	padding-bottom: 7px;
 	background: #444;
 	color: #777;
 	border-radius: 7px 7px 0 0;
 	font-weight: bold;
+	font-size: 14px;
 }
 
-.tabs a.active {
+.tabs a.label.active {
 	background: #222;
 	color: #fff;
+}
+
+.sub-tabs div.sub-tab {
+	padding: 25px 0;
+}
+
+.sub-tabs button.label {
+	font-size: 13px;
+	font-weight: bold;
+	border: none;
+	background: #960;
+	border-radius: 0.4em;
+	opacity: 0.6;
+	padding: 4px 9px;
+	margin-right: 4px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.sub-tabs button.label:hover {
+	opacity: 1;
+	background: #c90;
+}
+
+.sub-tabs button.label.active {
+	opacity: 1;
+	background: #c90;
 }
 
 div.hide {
 	display: none;
 }
 
-div.active {
+.tabs div.active,
+.sub-tabs div.active {
 	display: block;
 }
