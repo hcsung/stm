@@ -175,9 +175,7 @@ a {
 }
 
 .tabs div.dashboard {
-	overflow-x: scroll;
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+	overflow-x: auto;
 }
 
 .tabs a.label {
