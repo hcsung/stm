@@ -141,8 +141,8 @@ function prepare_jobs() {
 	];
 }
 
-function prepare_logs() {
-	let ret = localStorage.getItem("logs");
+function prepare_weekly_report() {
+	let ret = localStorage.getItem("weekly_report");
 
 	if (ret)
 		return ret;
@@ -151,9 +151,9 @@ function prepare_logs() {
 		{
 			"job": "170196456326777b962c40a58",
 			"rec": [
-				[0, 0.5, 0.5, 0.5, 0.5, 1, 1, 1],
+				[0, 1, 1, 1, 1, 1, 1, 1],
 				[1, 1, 1, 1, 1, 1, 1, 3],
-				[0.5, 0.5, 0.5, 0, 0, 0, 0, 0],
+				[1, 1, 1, 0, 0, 0, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0],
 				[1, 1, 1, 0, 0, 0, 0, 0]
 			]
@@ -161,9 +161,9 @@ function prepare_logs() {
 		{
 			"job": "1701964585951ea0ea0b778cd",
 			"rec": [
-				[0, 0, 0, 0, 0.5, 0.5, 0, 0],
+				[0, 0, 0, 0, 1, 1, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0],
-				[0.5, 0.5, 0.5, 1, 1, 1, 1, 1],
+				[1, 1, 1, 1, 1, 1, 1, 1],
 				[0, 0, 0, 0, 0, 0, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0]
 			]
@@ -201,7 +201,7 @@ function prepare_logs() {
 		{
 			"job": "17020526178837575716448c2",
 			"rec": [
-				[0, 0.5, 0.5, 0.5, 0, 0, 0, 0],
+				[0, 1, 1, 1, 0, 0, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0],
 				[0, 0, 0, 0, 0, 0, 0, 0],
@@ -223,4 +223,4 @@ function prepare_logs() {
 
 const projects = prepare_projects();
 const jobs = prepare_jobs();
-const logs = prepare_logs();
+const weekly_report = prepare_weekly_report();

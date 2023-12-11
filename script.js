@@ -2,6 +2,15 @@ const debugging = 1;
 
 const hour = 8; // working hour
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const headers = [
+	{ "key": "cate", "name": " " },
+	{ "key": "link", "name": "Jira ID" },
+	{ "key": "proj", "name": "Project" },
+	{ "key": "title", "name": "Title" },
+];
+
+var timer;
+var stamp;
 
 function debug(msg) {
 	if (!debugging)
@@ -13,20 +22,92 @@ function match(a, b) {
 	return String(a).toLowerCase() == String(b).toLowerCase();
 }
 
-function tip(msg) {
+function tip(td, msg) {
 	let span = $("<span>");
+
 	span.addClass("tip");
 	span.text(msg);
-	return span;
+	td.addClass("tooltip");
+	td.append(span);
 }
 
-function render_weekly(tbl) {
-	const headers = [
-		{ "key": "cate", "name": " " },
-		{ "key": "link", "name": "Jira ID" },
-		{ "key": "proj", "name": "Project" },
-		{ "key": "title", "name": "Title" },
-	];
+function position(td) {
+	let tr = $(td).parent();
+	let tb = tr.parent();
+	let row = tb.children().index(tr);
+	let col = tr.children().index(td);
+
+	row -= 1; // header (first row)
+	col -= 1; // sum
+	col -= headers.length;
+
+	return {
+		row: row,
+		col: col,
+		dd: ~~(col / hour),
+		hh: col % hour
+	};
+}
+
+function update_weekly(tbl, logs) {
+
+	let start = headers.length + 1; // +1 for summation column
+	let end = start + days.length * hour;
+	let count = [];
+	let sum = []
+
+	for (let col = start; col < end; col++) {
+		let temp = 0;
+		for (let row = 0; row < logs.length; row++) {
+			let dd = ~~((col - start) / hour);
+			let hh = (col - start) % hour;
+			let td = tbl.children().eq(row + 1).children().eq(col);
+			let rec = logs[row].rec[dd][hh];
+
+			td.removeClass("marked");
+			td.removeClass("ot");
+			td.html("");
+
+			if (!rec)
+				continue;
+
+			td.addClass("marked");
+
+			if (hh == 7) {
+				if (rec > 1) {
+					td.text(rec);
+					td.addClass("ot");
+					tip(td, "OT");
+				}
+				if (rec > 9) {
+					td.text("+");
+					tip(td, "OT: " + rec);
+				}
+			}
+			temp += rec;
+		}
+		count.push(temp);
+	}
+
+	for (let row = 0; row < logs.length; row++) {
+		let td = tbl.children().eq(row + 1).children().eq(headers.length);
+
+		sum.push(0);
+		for (let col = 0; col < count.length; col++) {
+			let dd = ~~(col / hour);
+			let hh = col % hour;
+			let rec = logs[row].rec[dd][hh];
+
+			if (!count[col])
+				continue;
+
+			sum[row] += rec / count[col];
+		}
+		td.text(Math.round(sum[row] * 10) / 10);
+	}
+}
+
+function render_weekly(tbl, logs) {
 
 	let tr = $("<tr>").addClass("non-select");
 
@@ -81,10 +162,9 @@ function render_weekly(tbl) {
 					span.text("error");
 				}
 
-				td.addClass("tooltip");
+				td.append(span); // icon
 				td.addClass("non-select");
-				td.append(span);
-				td.append(tip(info));
+				tip(td, info);
 			} else {
 				td.text(info);
 			}
@@ -106,37 +186,46 @@ function render_weekly(tbl) {
 				let td = $("<td>")
 					.addClass("time")
 					.addClass(day)
-					.addClass(cate)
 					.text(" ");
+
+				td.on("mousedown", function() {
+					stamp = Date.now();
+					timer = setTimeout(function() {
+						stamp = 0;
+
+						let pos = position(td);
+						logs[pos.row].rec[pos.dd][pos.hh] = 0;
+						update_weekly(tbl, logs);
+					}, 400);
+				});
+
+				td.on("mouseup", function() {
+					clearTimeout(timer);
+
+					// long press occurred
+					if (!stamp)
+						return;
+
+					let pos = position(td);
+
+					if (pos.hh < hour - 1)
+						logs[pos.row].rec[pos.dd][pos.hh] = 1;
+					else
+						logs[pos.row].rec[pos.dd][pos.hh]++;
+
+					update_weekly(tbl, logs);
+				});
 
 				if (i == 0)
 					td.addClass("col");
 
-				if (tm > 0) {
-					td.addClass("marked");
-					total += tm;
-				}
-
-				if (tm > 1) {
-					if (i != hour - 1) {
-						// only the last hour can be overtime
-						td.addClass("err");
-						td.text("X");
-					} else {
-						tm = tm > 9 ? "+" : tm;
-						td.addClass("ot");
-						td.addClass("tooltip");
-						td.text(tm);
-						td.append(tip("OT"));
-					}
-				}
 				tr.append(td);
 			}
 			d++;
 		});
-		sum.text(total);
 		tbl.append(tr);
 	});
+	update_weekly(tbl, logs);
 }
 
 function activate(obj) {
@@ -210,7 +299,8 @@ function onresize() {
 }
 
 $(document).ready(function () {
-	render_weekly($("#weekly").children(".dashboard").children("table"));
+	render_weekly($("#weekly").children(".dashboard").children("table"),
+		      weekly_report);
 
 	$(".tabs").each(function () { render_tabs($(this)); });
 	$(".sub-tabs").each(function () { render_sub_tabs($(this)); });

@@ -66,10 +66,14 @@ a {
 	border-left: dotted 1px #222;
 	font-family: monospace;
 	font-size: 13px;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
 }
 
 #weekly .dashboard td.marked {
-	background: rgba(150, 150, 100, 0.5);
+	background: rgba(150, 150, 100, 0.6);
 }
 
 #weekly .dashboard td.marked.ooo {
@@ -95,6 +99,8 @@ a {
 
 #weekly .dashboard td.sum {
 	font-family: monospace;
+	font-size: 11px;
+	min-width: 30px;
 }
 
 #weekly .dashboard td.cate,
