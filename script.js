@@ -11,6 +11,7 @@ const headers = [
 
 var timer;
 var stamp;
+var lights_on = localStorage.getItem("lights-on");
 
 function debug(msg) {
 	if (!debugging)
@@ -73,7 +74,7 @@ function update_weekly(tbl, logs) {
 
 			td.addClass("marked");
 
-			if (hh == 7) {
+			if (hh == hour - 1) {
 				if (rec > 1) {
 					td.text(rec);
 					td.addClass("ot");
@@ -83,8 +84,10 @@ function update_weekly(tbl, logs) {
 					td.text("+");
 					tip(td, "OT: " + rec);
 				}
+				temp = 1;
+			} else {
+				temp += rec;
 			}
-			temp += rec;
 		}
 		count.push(temp);
 	}
@@ -105,6 +108,41 @@ function update_weekly(tbl, logs) {
 		}
 		td.text(Math.round(sum[row] * 10) / 10);
 	}
+}
+
+function light_switch(icon) {
+	let src = "icons/";
+
+	src += (lights_on ? "dark" : "light");
+	src += ".svg";
+
+	icon.children("img.icon").attr("src", src);
+	if (lights_on)
+		$("html").addClass("lights-on");
+	else
+		$("html").removeClass("lights-on");
+}
+
+function render_control(ctl) {
+	let btn = $("<button>");
+	let src = "icons/";
+
+	src += lights_on ? "dark" : "light";
+	src += ".svg";
+
+	btn.append($("<img>").addClass("icon").attr("src", src));
+	btn.on("click", function() {
+		if (lights_on) {
+			lights_on = undefined;
+			localStorage.removeItem("lights-on");
+		} else {
+			lights_on = 1;
+			localStorage.setItem("lights-on", 1);
+		}
+		light_switch($(this));
+	});
+	light_switch(btn);
+	ctl.append(btn);
 }
 
 function render_weekly(tbl, logs) {
@@ -150,19 +188,16 @@ function render_weekly(tbl, logs) {
 			}
 
 			if (key == "cate") {
-				let span = $("<span>")
-					.addClass("material-symbols-outlined");
+				let icon = $("<img>").addClass("icon");
 
 				cate = categories.find(c => match(c["name"], info));
 				if (cate) {
-					span.text(cate["icon"]);
+					icon.attr("src", "icons/" + cate["icon"] + ".svg");
 					// for adding class later
 					cate = info.toLowerCase();
-				} else {
-					span.text("error");
 				}
 
-				td.append(span); // icon
+				td.append(icon);
 				td.addClass("non-select");
 				tip(td, info);
 			} else {
@@ -290,7 +325,7 @@ function onresize() {
 	let tbl = tab.children(".dashboard").children("table");
 	let diff = tbl.width() - tab.width();
 	let width = tbl.children("th.title").width();
-	let min = 120;
+	let min = 130;
 
 	width = ~~(width - diff);
 	if (width < min)
@@ -299,14 +334,16 @@ function onresize() {
 }
 
 $(document).ready(function () {
+	render_control($("#control"));
 	render_weekly($("#weekly").children(".dashboard").children("table"),
 		      weekly_report);
 
 	$(".tabs").each(function () { render_tabs($(this)); });
 	$(".sub-tabs").each(function () { render_sub_tabs($(this)); });
 
-	$(window).on("resize", onresize);
 
 	$("#face").removeClass("hide");
+
+	$(window).on("resize", onresize);
 	onresize(); // force update
 });

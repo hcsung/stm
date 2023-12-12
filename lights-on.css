@@ -1,0 +1,108 @@
+html.lights-on {
+	filter: invert(.9) hue-rotate(180deg);
+}
+/*.lights-on body {
+	background: #eee;
+	color: #111;
+}
+
+.lights-on img.icon {
+	filter: invert(0);
+}
+
+.lights-on  #control button {
+	background: #333;
+	height: 36px;
+	border-radius: 18px;
+}
+.lights-on #control img.icon {
+	filter: invert(1);
+}
+
+.lights-on #weekly .dashboard th,
+.lights-on #weekly .dashboard td {
+	border-bottom: solid 7px rgb(250, 150, 50);
+	color: #222;
+}
+
+.lights-on #weekly .dashboard th {
+	background: #111;
+	color: #eee;
+}
+
+.lights-on #weekly .dashboard td {
+	background: #333;
+}
+
+.lights-on #weekly .dashboard td.time {
+	border-left: dotted 1px #222;
+}
+
+.lights-on #weekly .dashboard td.marked {
+	background: rgba(150, 150, 100, 0.6);
+}
+
+.lights-on #weekly .dashboard td.marked.ooo {
+	background: rgba(150, 100, 255, 0.5);
+}
+
+.lights-on #weekly .dashboard td.ot {
+	background: rgba(200, 50, 0, 0.5);
+}
+
+.lights-on #weekly .dashboard td.col,
+.lights-on #weekly .dashboard th.col {
+	border-left: solid 2px #222;
+}
+
+.lights-on #weekly .dashboard td.err {
+	background: red;
+}
+
+.lights-on #weekly .dashboard tr:hover td {
+	background: #444;
+}
+
+.lights-on #weekly .dashboard tr:hover td.marked {
+	background: rgba(150, 150, 100, 1);
+}
+
+.lights-on #weekly .dashboard tr:hover td.ot {
+	background: rgba(200, 50, 0, 0.9);
+}
+
+.lights-on #weekly .dashboard tr:hover td.marked.ooo {
+	background: rgba(150, 100, 255, 0.9);
+}
+
+.lights-on .tooltip .tip {
+	background: #ffc;
+	color: #222;
+}
+
+.lights-on .tooltip .tip::after {
+	border-color: transparent transparent #ffc transparent;
+}
+
+.lights-on .code {
+	background: #555;
+}
+
+.lights-on .tabs div.tab {
+	background: rgb(250, 150, 50);
+}
+
+.lights-on .tabs a.label {
+	background: rgb(250, 150, 50);
+	filter: brightness(.6);
+	color: initial;
+}
+
+.lights-on .tabs a.label.active {
+	filter: brightness(1);
+}
+
+.lights-on .sub-tabs button.label {
+	background: #960;
+}
+*/

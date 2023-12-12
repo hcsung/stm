@@ -5,13 +5,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Simple Gantt Chart</title>
 	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+	<link rel="stylesheet" href="lights-on.css">
 </head>
 
 <body>
 	<div id="face" class="tabs hide">
-		<h1>Simple Gantt Chart</h1>
+		<h1>
+			Simple Gantt Chart
+			<div id="control">
+			</div>
+		</h1>
 		<a class="label" href="#weekly">Weekly</a>
 		<a class="label" href="#summary">Summary</a>
 		<a class="label" href="#settings">Settings</a>
@@ -29,11 +32,9 @@
 			<button class="label" value="#job">Job</button>
 			<button class="label" value="#project">Project</button>
 			<button class="label" value="#client">Client</button>
-			<button class="label" value="#others">Others</button>
 			<div id="job" class="sub-tab">Job</div>
 			<div id="project" class="sub-tab">Project</div>
 			<div id="client" class="sub-tab">Client</div>
-			<div id="others" class="sub-tab">Others</div>
 		</div>
 	</div>
 	<script src="jquery-3.7.1.min.js"></script>

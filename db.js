@@ -19,15 +19,15 @@ const clients = [
 const categories = [
 	{
 		"name": "Bug",
-		"icon": "bug_report"
+		"icon": "bug"
 	},
 	{
 		"name": "Feature",
-		"icon": "grade"
+		"icon": "new"
 	},
 	{
 		"name": "Task",
-		"icon": "task_alt"
+		"icon": "task"
 	},
 	{
 		"name": "Meeting",
@@ -39,11 +39,11 @@ const categories = [
 	},
 	{
 		"name": "Document",
-		"icon": "description"
+		"icon": "desc"
 	},
 	{
 		"name": "Others",
-		"icon": "question_mark"
+		"icon": "question"
 	}
 ];
 

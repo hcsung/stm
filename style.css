@@ -1,20 +1,44 @@
 body,
 html {
-	padding: 15px;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+
+body {
 	background: #111;
 	color: #eee;
 	font-family: sans-serif;
 	font-size: 16px;
-	overflow-x: hidden;
+	padding: min(50px, 5%);
+}
+
+button {
+	border: none;
+	border-radius: 0.5em;
+	cursor: pointer;
+	filter: brightness(.7) saturate(.5);
+	color: white;
+}
+button:hover,
+button.active {
+	filter: brightness(1) saturate(2);
+}
+
+div.hide {
+	display: none;
 }
 
 h1,
 h2,
 h3,
 h4 {
-	color: #fff;
 	margin: 0;
 	margin-bottom: 0.6em;
+}
+
+img.icon {
+	filter: invert(1);
 }
 
 span {
@@ -31,10 +55,26 @@ a {
 }
 
 #face {
-	max-width: 1280px;
+	max-width: 1440px;
 	margin: 0 auto;
 }
 
+#control {
+	display: inline-flex;
+	float: right;
+}
+#control button {
+	display: flexbox;
+	background: #ccc;
+	padding: 7px;
+	width: 36px;
+	height: 36px;
+	border-radius: 18px;
+}
+#control img.icon {
+	width: 100%;
+	filter: invert(0);
+}
 #weekly .dashboard {
 	font-size: 13px;
 }
@@ -62,14 +102,15 @@ a {
 
 #weekly .dashboard td.time {
 	padding: 0;
-	min-width: 11px;
 	border-left: dotted 1px #222;
 	font-family: monospace;
-	font-size: 13px;
+	font-size: 12px;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 	cursor: pointer;
+	min-width: 14px;
+	width: 14px;
 }
 
 #weekly .dashboard td.marked {
@@ -100,15 +141,21 @@ a {
 #weekly .dashboard td.sum {
 	font-family: monospace;
 	font-size: 11px;
-	min-width: 30px;
 }
 
 #weekly .dashboard td.cate,
 #weekly .dashboard td.time,
 #weekly .dashboard td.sum,
-#weekly .dashboard th.cate,
 #weekly .dashboard th.sum {
 	text-align: center;
+}
+
+#weekly .dashboard th.cate,
+#weekly .dashboard th.link,
+#weekly .dashboard th.proj,
+#weekly .dashboard th.sum {
+	width: 30px;
+	min-width: 30px;
 }
 
 #weekly .dashboard tr:hover td {
@@ -128,8 +175,6 @@ a {
 }
 
 .non-select {
-	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	cursor: default;
 }
@@ -170,6 +215,10 @@ a {
 	border-radius: 9px;
 }
 
+.label {
+	user-select: none;
+}
+
 .tabs div.tab,
 .sub-tabs div.sub-tab {
 	display: none;
@@ -177,7 +226,8 @@ a {
 
 .tabs div.tab {
 	background: #222;
-	padding: 35px;
+	padding: min(40px, 5%);
+	padding-top: min(30px, 5%);
 	border-radius: 0 9px 9px 9px;
 }
 
@@ -209,28 +259,9 @@ a {
 .sub-tabs button.label {
 	font-size: 13px;
 	font-weight: bold;
-	border: none;
 	background: #960;
-	border-radius: 0.4em;
-	opacity: 0.6;
 	padding: 4px 9px;
 	margin-right: 4px;
-	color: #fff;
-	cursor: pointer;
-}
-
-.sub-tabs button.label:hover {
-	opacity: 1;
-	background: #c90;
-}
-
-.sub-tabs button.label.active {
-	opacity: 1;
-	background: #c90;
-}
-
-div.hide {
-	display: none;
 }
 
 .tabs div.active,
