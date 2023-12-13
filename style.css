@@ -1,3 +1,25 @@
+:root {
+	--hsl-red: 15;
+	--hsl-orange: 36;
+	--hsl-purple: 260;
+	--hsl-yellow: 48;
+	--hsl-s-default: 85%;
+	--hsl-s-fade: 65%;
+	--hsl-l-default: 50%;
+	--hsl-l-light: 70%;
+	--hsl-l-dark: 35%;
+	--hsl-l-black: 10%;
+	--hsl-l-white: 90%;
+	--hsl-diff: 10%;
+	--hsl-diff-ob: 40%;
+
+	--color-bg: hsl(0, 0%, var(--hsl-l-black));
+	--color-font: hsl(0, 0%, var(--hsl-l-white));
+	--color-tab: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff)));
+
+	--low-light: contrast(0.4) brightness(0.7);
+}
+
 body,
 html {
 	margin: 0;
@@ -5,9 +27,13 @@ html {
 	overflow-x: hidden;
 }
 
+html.lights-on {
+	filter: invert(.9) hue-rotate(180deg);
+}
+
 body {
-	background: #111;
-	color: #eee;
+	background: var(--color-bg);
+	color: var(--color-font);
 	font-family: sans-serif;
 	font-size: 16px;
 	padding: min(50px, 5%);
@@ -17,12 +43,12 @@ button {
 	border: none;
 	border-radius: 0.5em;
 	cursor: pointer;
-	filter: brightness(.7) saturate(.5);
-	color: white;
+	filter: var(--low-light);
+	user-select: none;
 }
 button:hover,
 button.active {
-	filter: brightness(1) saturate(2);
+	filter: none;
 }
 
 div.hide {
@@ -65,7 +91,6 @@ a {
 }
 #control button {
 	display: flexbox;
-	background: #ccc;
 	padding: 7px;
 	width: 36px;
 	height: 36px;
@@ -81,57 +106,66 @@ a {
 
 #weekly .dashboard th,
 #weekly .dashboard td {
-	border-bottom: solid 7px #222;
+	border-bottom: solid 8px var(--color-tab);
+	height: 30px;
+	padding: 0 8px;
 	text-align: left;
-	vertical-align: middle;
 	white-space: nowrap;
-	color: #ddd;
-	padding: 6px;
 }
 
 #weekly .dashboard th {
-	background: #111;
-	color: #eee;
+	background: var(--color-bg);
 }
 
 #weekly .dashboard td {
-	padding-top: 0;
-	padding-bottom: 0;
-	background: #333;
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 2));
 }
 
 #weekly .dashboard td.time {
-	padding: 0;
-	border-left: dotted 1px #222;
+	padding: 0 1px;
+	border-left: dashed 1px var(--color-tab);
 	font-family: monospace;
 	font-size: 12px;
-	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	cursor: pointer;
 	min-width: 14px;
 	width: 14px;
 }
-
+#weekly .dashboard tr:hover td {
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3));
+}
 #weekly .dashboard td.marked {
-	background: rgba(150, 150, 100, 0.6);
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3));
+}
+#weekly .dashboard tr:hover td.marked {
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 4));
+}
+
+#weekly .dashboard td.marked.ot {
+	background: hsl(var(--hsl-orange),
+			var(--hsl-s-fade),
+			var(--hsl-l-dark));
+}
+#weekly .dashboard tr:hover td.marked.ot {
+	background: hsl(var(--hsl-orange),
+			var(--hsl-s-fade),
+			var(--hsl-l-default));
 }
 
 #weekly .dashboard td.marked.ooo {
-	background: rgba(150, 100, 255, 0.5);
+	background: hsl(var(--hsl-purple),
+			var(--hsl-s-fade),
+			var(--hsl-l-light));
 }
-
-#weekly .dashboard td.ot {
-	background: rgba(200, 50, 0, 0.5);
+#weekly .dashboard tr:hover td.marked.ooo {
+	background: hsl(var(--hsl-purple),
+			100%,
+			var(--hsl-l-light));
 }
 
 #weekly .dashboard td.col,
 #weekly .dashboard th.col {
-	border-left: solid 2px #222;
-}
-
-#weekly .dashboard td.err {
-	background: red;
+	border-left: solid 2px var(--color-tab);
 }
 
 #weekly .dashboard td.title {
@@ -158,22 +192,6 @@ a {
 	min-width: 30px;
 }
 
-#weekly .dashboard tr:hover td {
-	background: #444;
-}
-
-#weekly .dashboard tr:hover td.marked {
-	background: rgba(150, 150, 100, 1);
-}
-
-#weekly .dashboard tr:hover td.ot {
-	background: rgba(200, 50, 0, 0.9);
-}
-
-#weekly .dashboard tr:hover td.marked.ooo {
-	background: rgba(150, 100, 255, 0.9);
-}
-
 .non-select {
 	user-select: none;
 	cursor: default;
@@ -183,7 +201,7 @@ a {
 	visibility: hidden;
 	position: absolute;
 	background: #ffc;
-	color: #222;
+	color: var(--color-bg);
 	padding: 4px 8px;
 	border-radius: 5px;
 	font-family: sans-serif;
@@ -208,13 +226,6 @@ a {
 	visibility: visible;
 }
 
-.code {
-	font-family: monospace;
-	background: #555;
-	padding: 6px 9px;
-	border-radius: 9px;
-}
-
 .label {
 	user-select: none;
 }
@@ -225,10 +236,10 @@ a {
 }
 
 .tabs div.tab {
-	background: #222;
+	background: var(--color-tab);
+	border-radius: 0 9px 9px 9px;
 	padding: min(40px, 5%);
 	padding-top: min(30px, 5%);
-	border-radius: 0 9px 9px 9px;
 }
 
 .tabs div.dashboard {
@@ -236,20 +247,20 @@ a {
 }
 
 .tabs a.label {
-	list-style-type: none;
-	display: inline-block;
-	padding: 9px 14px;
-	padding-bottom: 7px;
-	background: #444;
-	color: #777;
+	background: var(--color-tab);
 	border-radius: 7px 7px 0 0;
+	color: var(--color-font);
+	display: inline-block;
+	filter: var(--low-light);
 	font-weight: bold;
 	font-size: 14px;
+	padding: 9px 14px;
+	padding-bottom: 7px;
 }
 
 .tabs a.label.active {
-	background: #222;
-	color: #fff;
+	filter: none;
+
 }
 
 .sub-tabs div.sub-tab {
@@ -257,11 +268,13 @@ a {
 }
 
 .sub-tabs button.label {
+	background: hsl(var(--hsl-orange),
+			var(--hsl-s-default),
+			var(--hsl-l-default));
 	font-size: 13px;
 	font-weight: bold;
-	background: #960;
-	padding: 4px 9px;
 	margin-right: 4px;
+	padding: 4px 9px;
 }
 
 .tabs div.active,

@@ -16,7 +16,7 @@ var lights_on = localStorage.getItem("lights-on");
 function debug(msg) {
 	if (!debugging)
 		return;
-	$("body").append($("<div>").addClass("code").text(msg));
+	$("body").append($("<div>").text(msg));
 }
 
 function match(a, b) {
@@ -193,7 +193,6 @@ function render_weekly(tbl, logs) {
 				cate = categories.find(c => match(c["name"], info));
 				if (cate) {
 					icon.attr("src", "icons/" + cate["icon"] + ".svg");
-					// for adding class later
 					cate = info.toLowerCase();
 				}
 
@@ -221,6 +220,7 @@ function render_weekly(tbl, logs) {
 				let td = $("<td>")
 					.addClass("time")
 					.addClass(day)
+					.addClass(cate)
 					.text(" ");
 
 				td.on("mousedown", function() {
