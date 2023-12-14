@@ -132,10 +132,10 @@ a {
 	width: 14px;
 }
 #weekly .dashboard tr:hover td {
-	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3));
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 2.3));
 }
 #weekly .dashboard td.marked {
-	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3));
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3.3));
 }
 #weekly .dashboard tr:hover td.marked {
 	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 4));
@@ -271,6 +271,7 @@ a {
 	background: hsl(var(--hsl-orange),
 			var(--hsl-s-default),
 			var(--hsl-l-default));
+	color: var(--color-bg);
 	font-size: 13px;
 	font-weight: bold;
 	margin-right: 4px;
