@@ -1,4 +1,4 @@
-const debugging = 1;
+const debugging = 0;
 
 const hour = 8; // working hour
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -23,13 +23,20 @@ function match(a, b) {
 	return String(a).toLowerCase() == String(b).toLowerCase();
 }
 
-function tip(td, msg) {
+function icon(name) {
+	let div = $("<div>");
+
+	div.addClass("icon");
+	div.addClass(name);
+	return div;
+}
+
+function tip(msg) {
 	let span = $("<span>");
 
 	span.addClass("tip");
 	span.text(msg);
-	td.addClass("tooltip");
-	td.append(span);
+	return span;
 }
 
 function position(td) {
@@ -78,11 +85,12 @@ function update_weekly(tbl, logs) {
 				if (rec > 1) {
 					td.text(rec);
 					td.addClass("ot");
-					tip(td, "OT");
+					td.addClass("tooltip");
+					td.append(tip("OT"));
 				}
 				if (rec > 9) {
 					td.text("+");
-					tip(td, "OT: " + rec);
+					td.append(tip("OT: " + rec));
 				}
 				temp = 1;
 			} else {
@@ -188,17 +196,13 @@ function render_weekly(tbl, logs) {
 			}
 
 			if (key == "cate") {
-				let icon = $("<img>").addClass("icon");
-
 				cate = categories.find(c => match(c["name"], info));
 				if (cate) {
-					icon.attr("src", "icons/" + cate["icon"] + ".svg");
+					td.addClass("tooltip");
+					td.append(icon(cate["icon"]));
+					td.append(tip(info));
 					cate = info.toLowerCase();
 				}
-
-				td.append(icon);
-				td.addClass("non-select");
-				tip(td, info);
 			} else {
 				td.text(info);
 			}
@@ -271,22 +275,29 @@ function deactivate(obj) {
 	obj.removeClass("active");
 }
 
-function render_tabs(obj) {
-	let tabs = obj.children(".tab");
+function render_tabs(obj, selector) {
+	let tabs = obj.children(selector);
 	let labs = obj.children(".label");
 	let hash = window.location.hash;
-	let curr_tab = hash ? $(hash) : undefined;
-	let curr_lab;
+	let curr_tab, curr_lab;
 
-	if (curr_tab) {
+	if (selector == ".tab")
+		hash = hash.split("-")[0];
+
+	if (hash)
+		curr_tab = obj.children(hash);
+
+	if (curr_tab && curr_tab.length) {
 		labs.each(function () {
 			if ($(this).attr("href") == hash)
 				curr_lab = $(this);
 		});
 	} else {
 		curr_tab = tabs.first();
-		curr_lab = labs.first();
 	}
+
+	if (!curr_lab)
+		curr_lab = labs.first();
 
 	activate(curr_tab);
 	activate(curr_lab);
@@ -295,24 +306,6 @@ function render_tabs(obj) {
 			let target = $(this).attr("href");
 
 			labs.each(function () { deactivate($(this)); });
-			tabs.each(function () { deactivate($(this)); });
-			activate($(this));
-			activate($(target));
-		});
-	});
-}
-
-function render_sub_tabs(obj) {
-	let tabs = obj.children(".sub-tab");
-	let btns = obj.children("button");
-
-	activate(btns.first());
-	activate(tabs.first());
-	btns.each(function () {
-		$(this).on("click", function () {
-			let target = $(this).attr("value");
-
-			btns.each(function () { deactivate($(this)); });
 			tabs.each(function () { deactivate($(this)); });
 			activate($(this));
 			activate($(target));
@@ -338,8 +331,12 @@ $(document).ready(function () {
 	render_weekly($("#weekly").children(".dashboard").children("table"),
 		      weekly_report);
 
-	$(".tabs").each(function () { render_tabs($(this)); });
-	$(".sub-tabs").each(function () { render_sub_tabs($(this)); });
+	$(".tabs").each(function () {
+		render_tabs($(this), '.tab');
+	});
+	$(".sub-tabs").each(function () {
+		render_tabs($(this), '.sub-tab');
+	});
 
 
 	$("#face").removeClass("hide");

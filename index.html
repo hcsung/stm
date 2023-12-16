@@ -18,27 +18,61 @@
 		<a class="label" href="#summary">Summary</a>
 		<a class="label" href="#settings">Settings</a>
 		<div id="weekly" class="tab">
-			<h3>W52</h3>
+			<h2>W52</h2>
 			<p>Tap to mark, long press to cancel.</p>
 			<div class="dashboard">
 				<table></table>
 			</div>
 		</div>
 		<div id="summary" class="tab">
-			<h2>Summary</h2>
+			<h1>h1</h1>
+			<h2>h2</h2>
+			<h3>h3</h3>
+			<h4>h4</h4>
 		</div>
 		<div id="settings" class="tab sub-tabs">
-			<button class="label" value="#job">Job</button>
-			<button class="label" value="#project">Project</button>
-			<button class="label" value="#client">Client</button>
-			<div id="job" class="sub-tab">Job</div>
-			<div id="project" class="sub-tab">Project</div>
-			<div id="client" class="sub-tab">Client</div>
+			<a class="label" href="#settings-job">Job</a>
+			<a class="label" href="#settings-proj">Project</a>
+			<a class="label" href="#settings-cli">Client</a>
+			<div id="settings-job" class="sub-tab">
+				<table>
+					<tr>
+						<th class="icon"></th>
+						<th id="job-cate">Cate.</th>
+						<th id="job-pri">Priority</th>
+						<th id="job-link">Link</th>
+						<th id="job-proj">Project</th>
+						<th id="job-title">Title</th>
+					</tr>
+				</table>
+			</div>
+			<div id="settings-proj" class="sub-tab">
+				<table>
+					<tr>
+						<th class="icon"></th>
+						<th id="proj-name">Name</th>
+						<th id="proj-chip">Chip</th>
+						<th id="proj-cli">Client</th>
+						<th id="proj-desc">Description</th>
+					</tr>
+				</table>
+			</div>
+			<div id="settings-cli" class="sub-tab">
+				<table>
+					<tr>
+						<th class="icon"></th>
+						<th id="cli-code">Code</th>
+						<th id="cli-name">Name</th>
+						<th id="cli-desc">Description</th>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 	<script src="jquery-3.7.1.min.js"></script>
 	<script src="db.js"></script>
 	<script src="script.js"></script>
+	<script src="settings.js"></script>
 </body>
 
 </html>

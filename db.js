@@ -1,17 +1,17 @@
 const clients = [
 	{
 		"name": "Beetle",
-		"id": "c1",
+		"code": "c1",
 		"desc": ""
 	},
 	{
 		"name": "Cricket",
-		"id": "c2",
+		"code": "c2",
 		"desc": ""
 	},
 	{
 		"name": "Dragonfly",
-		"id": "c3",
+		"code": "c3",
 		"desc": ""
 	}
 ];
