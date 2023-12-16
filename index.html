@@ -13,9 +13,8 @@
 		<h1>
 			Simple Gantt Chart
 			<div id="control">
-				<button class="icon theme light"></button>
 				<button class="icon locked lock"></button>
-				<button class="icon download"></button>
+				<button class="icon theme light"></button>
 			</div>
 		</h1>
 		<a class="label" href="#weekly">Weekly</a>
@@ -38,6 +37,7 @@
 			<a class="label" href="#settings-job">Job</a>
 			<a class="label" href="#settings-proj">Project</a>
 			<a class="label" href="#settings-cli">Client</a>
+			<a class="label" href="#settings-db">DB</a>
 			<div id="settings-job" class="sub-tab">
 				<table>
 					<tr>
@@ -70,6 +70,16 @@
 						<th id="cli-desc">Description</th>
 					</tr>
 				</table>
+			</div>
+			<div id="settings-db" class="sub-tab">
+				<p>
+					<span><button class="icon download"></button></span>
+					<span>Download the database</span>
+				</p>
+				<p>
+					<span><button class="icon upload"></button></span>
+					<input type="file"/>
+				</p>
 			</div>
 		</div>
 	</div>
