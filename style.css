@@ -124,6 +124,10 @@ div.icon {
 div.icon.clickable {
 	cursor: pointer;
 }
+div.icon.clickable.locked {
+	cursor: default;
+	filter: invert(1) var(--low-light);
+}
 
 td,
 th {
@@ -199,6 +203,10 @@ tr:hover td {
 	cursor: pointer;
 	min-width: 14px;
 	width: 14px;
+}
+
+#weekly .dashboard td.time.locked {
+	cursor: default;
 }
 
 #weekly .dashboard td.marked {
@@ -417,4 +425,12 @@ tr:hover td {
 
 .icon.dark {
 	background-image: url("icons/dark.svg");
+}
+
+.icon.lock {
+	background-image: url("icons/lock.svg");
+}
+
+.icon.unlock {
+	background-image: url("icons/unlock.svg");
 }

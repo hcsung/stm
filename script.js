@@ -149,17 +149,40 @@ function update_theme(btn) {
 	}
 }
 
+function update_lock(btn) {
+	if (locked) {
+		btn.addClass("lock");
+		btn.removeClass("unlock");
+		$(".clickable").addClass("locked");
+		$("td.time").addClass("locked");
+	} else {
+		btn.addClass("unlock");
+		btn.removeClass("lock");
+		$(".clickable").removeClass("locked");
+		$("td.time").removeClass("locked");
+	}
+}
+
 function render_control(ctl) {
-	let btn = ctl.children("button.theme");
+	let btn;
 
 	lights_on = lights_on == null ? 0 : parseInt(lights_on);
-	update_theme(btn);
 
+	btn = ctl.children("button.theme");
 	btn.on("click", function () {
 		lights_on = lights_on ? 0 : 1;
 		update_theme($(this));
-		localStorage.setItem("lights-on", lights_on);
+		localStorage.setItem(my_app + "lights-on", lights_on);
 	});
+	update_theme(btn);
+
+	btn = ctl.children("button.locked");
+	btn.on("click", function () {
+		locked = locked ? 0 : 1;
+		update_lock($(this));
+		//localStorage.setItem(my_app + "locked", locked);
+	});
+	update_lock(btn);
 }
 
 function render_weekly(tbl, logs) {
@@ -237,6 +260,8 @@ function render_weekly(tbl, logs) {
 					.text(" ");
 
 				td.on("mousedown", function () {
+					if (locked)
+						return;
 					stamp = Date.now();
 					timer = setTimeout(function () {
 						stamp = 0;
@@ -248,6 +273,9 @@ function render_weekly(tbl, logs) {
 				});
 
 				td.on("mouseup", function () {
+					if (locked)
+						return;
+
 					clearTimeout(timer);
 
 					// long press occurred
@@ -328,7 +356,6 @@ function onresize() {
 }
 
 $(document).ready(function () {
-	render_control($("#control"));
 	render_weekly($("#weekly").children(".dashboard").children("table"),
 		weekly_report);
 
@@ -339,6 +366,8 @@ $(document).ready(function () {
 		render_tabs($(this), '.sub-tab');
 	});
 
+	// render control panel at the end for the lock to be applied
+	render_control($("#control"));
 
 	$("#face").removeClass("hide");
 

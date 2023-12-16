@@ -23,6 +23,9 @@ const categories = [
 
 var lights_on = localStorage.getItem(my_app + "lights-on");
 
+// always lock when refresh
+var locked = 1;
+
 var db = {
 	"clients": JSON.parse(localStorage.getItem(my_app + "clients")),
 	"projects": JSON.parse(localStorage.getItem(my_app + "projects")),

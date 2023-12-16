@@ -52,9 +52,16 @@ function new_row(columns, data, name) {
 	let td;
 
 	btn.on("click", function () {
-		let tr = $(this).parent().parent();
-		let td = tr.find("td:eq(1)");
-		let key = td.attr("data-key");
+		let tr;
+		let td;
+		let key;
+
+		if (locked)
+			return;
+
+		tr = $(this).parent().parent();
+		td = tr.find("td:eq(1)");
+		key = td.attr("data-key");
 
 		db[name] = $.grep(db[name], function (data) {
 			return !match(td.html(), data[key]);
@@ -96,6 +103,9 @@ function render_settings(tb, name, columns) {
 			let input;
 			let valid = 1;
 			let new_data = {};
+
+			if (locked)
+				return;
 
 			if (locks[name])
 				return;
