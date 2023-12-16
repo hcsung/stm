@@ -117,47 +117,8 @@ th.icon {
 div.icon {
 	width: 100%;
 	height: var(--size-icon);
-	background-position: center;
-	background-repeat: no-repeat;
-	filter: invert(1);
 	float: left;
-}
-
-div.icon.add {
-	background-image: url("icons/add.svg");
-	cursor: pointer;
-}
-
-div.icon.add:hover {
-	filter: invert(1) hue-rotate(90deg);
-}
-
-div.icon.bug {
-	background-image: url("icons/bug.svg");
-}
-
-div.icon.new {
-	background-image: url("icons/new.svg");
-}
-
-div.icon.task {
-	background-image: url("icons/task.svg");
-}
-
-div.icon.event {
-	background-image: url("icons/event.svg");
-}
-
-div.icon.logout {
-	background-image: url("icons/logout.svg");
-}
-
-div.icon.desc {
-	background-image: url("icons/desc.svg");
-}
-
-div.icon.question {
-	background-image: url("icons/question.svg");
+	filter: invert(1);
 }
 
 td,
@@ -198,15 +159,11 @@ tr:hover td {
 }
 
 #control button {
-	display: flexbox;
+	border-radius: 18px;
 	padding: 6px;
 	width: 36px;
 	height: 36px;
-	border-radius: 18px;
-}
-
-#control img.icon {
-	filter: invert(0);
+	margin-left: 10px;
 }
 
 #weekly .dashboard td.time {
@@ -320,6 +277,11 @@ tr:hover td {
 	visibility: visible;
 }
 
+.icon {
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
 .label {
 	user-select: none;
 }
@@ -375,4 +337,53 @@ tr:hover td {
 .tabs div.active,
 .sub-tabs div.active {
 	display: block;
+}
+
+.icon.add {
+	background-image: url("icons/add.svg");
+	cursor: pointer;
+}
+
+.icon.bug {
+	background-image: url("icons/bug.svg");
+}
+
+.icon.new {
+	background-image: url("icons/new.svg");
+}
+
+.icon.task {
+	background-image: url("icons/task.svg");
+}
+
+.icon.event {
+	background-image: url("icons/event.svg");
+}
+
+.icon.logout {
+	background-image: url("icons/logout.svg");
+}
+
+.icon.desc {
+	background-image: url("icons/desc.svg");
+}
+
+.icon.question {
+	background-image: url("icons/question.svg");
+}
+
+.icon.upload {
+	background-image: url("icons/upload.svg");
+}
+
+.icon.download {
+	background-image: url("icons/download.svg");
+}
+
+.icon.light {
+	background-image: url("icons/light.svg");
+}
+
+.icon.dark {
+	background-image: url("icons/dark.svg");
 }

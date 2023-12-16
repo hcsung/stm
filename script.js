@@ -118,39 +118,30 @@ function update_weekly(tbl, logs) {
 	}
 }
 
-function light_switch(icon) {
-	let src = "icons/";
-
-	src += (lights_on ? "dark" : "light");
-	src += ".svg";
-
-	icon.children("img.icon").attr("src", src);
-	if (lights_on)
+function update_theme(btn) {
+	if (lights_on) {
 		$("html").addClass("lights-on");
-	else
+		btn.removeClass("light");
+		btn.addClass("dark");
+
+	} else {
 		$("html").removeClass("lights-on");
+		btn.removeClass("dark");
+		btn.addClass("light");
+	}
 }
 
 function render_control(ctl) {
-	let btn = $("<button>");
-	let src = "icons/";
+	let btn = ctl.children("button.theme");
 
-	src += lights_on ? "dark" : "light";
-	src += ".svg";
+	lights_on = lights_on == null ? 0 : parseInt(lights_on);
+	update_theme(btn);
 
-	btn.append($("<img>").addClass("icon").attr("src", src));
-	btn.on("click", function() {
-		if (lights_on) {
-			lights_on = undefined;
-			localStorage.removeItem("lights-on");
-		} else {
-			lights_on = 1;
-			localStorage.setItem("lights-on", 1);
-		}
-		light_switch($(this));
+	btn.on("click", function () {
+		lights_on = lights_on ? 0 : 1;
+		update_theme($(this));
+		localStorage.setItem("lights-on", lights_on);
 	});
-	light_switch(btn);
-	ctl.append(btn);
 }
 
 function render_weekly(tbl, logs) {
@@ -227,9 +218,9 @@ function render_weekly(tbl, logs) {
 					.addClass(cate)
 					.text(" ");
 
-				td.on("mousedown", function() {
+				td.on("mousedown", function () {
 					stamp = Date.now();
-					timer = setTimeout(function() {
+					timer = setTimeout(function () {
 						stamp = 0;
 
 						let pos = position(td);
@@ -238,7 +229,7 @@ function render_weekly(tbl, logs) {
 					}, 400);
 				});
 
-				td.on("mouseup", function() {
+				td.on("mouseup", function () {
 					clearTimeout(timer);
 
 					// long press occurred
@@ -329,7 +320,7 @@ function onresize() {
 $(document).ready(function () {
 	render_control($("#control"));
 	render_weekly($("#weekly").children(".dashboard").children("table"),
-		      weekly_report);
+		weekly_report);
 
 	$(".tabs").each(function () {
 		render_tabs($(this), '.tab');
