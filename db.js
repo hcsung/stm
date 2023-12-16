@@ -1,87 +1,84 @@
-const clients = [
-	{
-		"name": "Beetle",
-		"code": "c1",
-		"desc": ""
-	},
-	{
-		"name": "Cricket",
-		"code": "c2",
-		"desc": ""
-	},
-	{
-		"name": "Dragonfly",
-		"code": "c3",
-		"desc": ""
-	}
-];
+const my_app = "hcsung.com/sgc/";
 
+const debugging = 0;
+const animation_delay = 1500; // ms
+
+const hour = 8; // working hour
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const headers = [
+	{ "key": "cate", "name": " " },
+	{ "key": "link", "name": "Jira ID" },
+	{ "key": "proj", "name": "Project" },
+	{ "key": "title", "name": "Title" },
+];
 const categories = [
-	{
-		"name": "Bug",
-		"icon": "bug"
-	},
-	{
-		"name": "Feature",
-		"icon": "new"
-	},
-	{
-		"name": "Task",
-		"icon": "task"
-	},
-	{
-		"name": "Meeting",
-		"icon": "event"
-	},
-	{
-		"name": "OOO",
-		"icon": "logout"
-	},
-	{
-		"name": "Document",
-		"icon": "desc"
-	},
-	{
-		"name": "Others",
-		"icon": "question"
-	}
+	{ "name": "Bug", "icon": "bug" },
+	{ "name": "Feature", "icon": "new" },
+	{ "name": "Task", "icon": "task" },
+	{ "name": "Meeting", "icon": "event" },
+	{ "name": "OOO", "icon": "logout" },
+	{ "name": "Document", "icon": "desc" },
+	{ "name": "Others", "icon": "question" }
 ];
 
-function prepare_projects() {
-	let ret = localStorage.getItem("projects");
+var lights_on = localStorage.getItem(my_app + "lights-on");
 
-	if (ret)
-		return ret;
+var db = {
+	"clients": JSON.parse(localStorage.getItem(my_app + "clients")),
+	"projects": JSON.parse(localStorage.getItem(my_app + "projects")),
+	"jobs": JSON.parse(localStorage.getItem(my_app + "jobs")),
+};
 
-	return [
+function update_db(name) {
+	localStorage.setItem(my_app + name, JSON.stringify(db[name]));
+}
+
+if (db["clients"] == null) {
+	db["clients"] = [
 		{
-			"name": "Banana",
-			"chip": "sgc-1",
-			"client": "c1",
+			"name": "Beetle",
+			"code": "C1",
 			"desc": ""
 		},
 		{
-			"name": "Cherry",
-			"chip": "sgc-2",
-			"client": "c2",
+			"name": "Cricket",
+			"code": "C2",
 			"desc": ""
 		},
 		{
-			"name": "Durian",
-			"chip": "sgc-3",
-			"client": "c3",
+			"name": "Dragonfly",
+			"code": "C3",
 			"desc": ""
 		}
 	];
+	update_db("clients");
 }
 
-function prepare_jobs() {
-	let ret = localStorage.getItem("jobs");
-
-	if (ret)
-		return ret;
-
-	return [
+if (db["projects"] == null) {
+	db["projects"] = [
+		{
+			"cli": "Beetle",
+			"chip": "SGC-1",
+			"name": "Banana",
+			"desc": ""
+		},
+		{
+			"cli": "Cricket",
+			"chip": "SGC-2",
+			"name": "Cherry",
+			"desc": ""
+		},
+		{
+			"cli": "Dragonfly",
+			"chip": "SGC-3",
+			"name": "Durian",
+			"desc": ""
+		}
+	];
+	update_db("projects");
+}
+if (db["jobs"] == null) {
+	db["jobs"] = [
 		{
 			"link": "-",
 			"cate": "Document",
@@ -139,6 +136,7 @@ function prepare_jobs() {
 			"id": "1702220994270933a32905c41"
 		},
 	];
+	update_db("jobs");
 }
 
 function prepare_weekly_report() {
@@ -221,6 +219,4 @@ function prepare_weekly_report() {
 	];
 }
 
-const projects = prepare_projects();
-const jobs = prepare_jobs();
 const weekly_report = prepare_weekly_report();

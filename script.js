@@ -1,34 +1,35 @@
-const debugging = 0;
-
-const hour = 8; // working hour
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-const headers = [
-	{ "key": "cate", "name": " " },
-	{ "key": "link", "name": "Jira ID" },
-	{ "key": "proj", "name": "Project" },
-	{ "key": "title", "name": "Title" },
-];
-
 var timer;
 var stamp;
-var lights_on = localStorage.getItem("lights-on");
 
 function debug(msg) {
 	if (!debugging)
 		return;
-	$("body").append($("<div>").text(msg));
+	console.log(msg);
+	//$("body").append($("<div>").text(msg));
 }
 
-function match(a, b) {
-	return String(a).toLowerCase() == String(b).toLowerCase();
+function activate(obj) {
+	obj.addClass("active");
 }
 
-function icon(name) {
+function deactivate(obj) {
+	obj.removeClass("active");
+}
+
+function icon(name, clickable = false) {
 	let div = $("<div>");
 
 	div.addClass("icon");
 	div.addClass(name);
+	if (clickable)
+		div.addClass("clickable");
 	return div;
+}
+
+function match(a, b) {
+	a = String(a).toLowerCase();
+	b = String(b).toLowerCase();
+	return a == b;
 }
 
 function tip(msg) {
@@ -37,6 +38,23 @@ function tip(msg) {
 	span.addClass("tip");
 	span.text(msg);
 	return span;
+}
+
+function warn(msg) {
+	let target = $("#warning");
+
+	target.text(msg);
+	target.css("opacity", "1");
+	setTimeout(function () {
+		target.css("opacity", "0");
+	}, animation_delay);
+}
+
+function highlight(obj) {
+	obj.css("border-bottom-color", "red");
+	setTimeout(function () {
+		obj.removeAttr("style");
+	}, animation_delay);
 }
 
 function position(td) {
@@ -163,9 +181,9 @@ function render_weekly(tbl, logs) {
 	// headers
 	tbl.append(tr);
 
-	logs.forEach(function (log) {
+	logs.forEach(log => {
 		let id = log["job"];
-		let job = jobs.find(job => job["id"] == id);
+		let job = db["jobs"].find(job => job["id"] == id);
 		let sum = $("<td>");
 		let cate = undefined;
 
@@ -176,7 +194,7 @@ function render_weekly(tbl, logs) {
 
 		tr = $("<tr>");
 
-		headers.forEach(function (header) {
+		headers.forEach(header => {
 			let key = header["key"];
 			let info = job[key];
 			let td = $("<td>").addClass(key);
@@ -206,7 +224,7 @@ function render_weekly(tbl, logs) {
 
 		let d = 0;
 		let total = 0;
-		days.forEach(function (day) {
+		days.forEach(day => {
 			let rec = log["rec"];
 
 			day = day.toLowerCase();
@@ -256,14 +274,6 @@ function render_weekly(tbl, logs) {
 		tbl.append(tr);
 	});
 	update_weekly(tbl, logs);
-}
-
-function activate(obj) {
-	obj.addClass("active");
-}
-
-function deactivate(obj) {
-	obj.removeClass("active");
 }
 
 function render_tabs(obj, selector) {

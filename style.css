@@ -111,7 +111,7 @@ td {
 
 th.icon {
 	width: var(--size-icon);
-	max-width: var(--size-icon);
+	min-width: var(--size-icon);
 }
 
 div.icon {
@@ -119,6 +119,10 @@ div.icon {
 	height: var(--size-icon);
 	float: left;
 	filter: invert(1);
+}
+
+div.icon.clickable {
+	cursor: pointer;
 }
 
 td,
@@ -136,12 +140,19 @@ th {
 
 th#cli-code {
 	width: calc(var(--size-font) * 3);
-	max-width: calc(var(--size-font) * 3);
+	min-width: calc(var(--size-font) * 3);
 }
 
-th#cli-name {
+th#cli-name,
+th#proj-chip,
+th#proj-cli {
 	width: calc(var(--size-font) * 6);
-	max-width: calc(var(--size-font) * 6);
+	min-width: calc(var(--size-font) * 6);
+}
+
+th#proj-name {
+	width: calc(var(--size-font) * 7);
+	min-width: calc(var(--size-font) * 7);
 }
 
 tr:hover td {
@@ -160,10 +171,23 @@ tr:hover td {
 
 #control button {
 	border-radius: 18px;
-	padding: 6px;
-	width: 36px;
-	height: 36px;
+	padding: 7px;
+	width: 38px;
+	height: 38px;
 	margin-left: 10px;
+}
+
+#warning {
+	background: hsl(var(--hsl-red), var(--hsl-s-default), var(--hsl-l-dark));
+	font-weight: bold;
+	opacity: 0;
+	padding: 10px 20px;
+	position: fixed;
+	transition: opacity 0.3s ease-out;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 99;
 }
 
 #weekly .dashboard td.time {
@@ -339,9 +363,12 @@ tr:hover td {
 	display: block;
 }
 
+.upper-case {
+	text-transform: uppercase;
+}
+
 .icon.add {
 	background-image: url("icons/add.svg");
-	cursor: pointer;
 }
 
 .icon.bug {
@@ -362,6 +389,10 @@ tr:hover td {
 
 .icon.logout {
 	background-image: url("icons/logout.svg");
+}
+
+.icon.del {
+	background-image: url("icons/delete.svg");
 }
 
 .icon.desc {
