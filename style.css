@@ -123,24 +123,22 @@ td {
 	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 2));
 }
 
-.icon {
-	width: var(--size-icon);
-	min-width: var(--size-icon);
-}
-
 div.icon {
-	width: 100%;
-	min-height: var(--size-icon);
+	/* to centralize the tooltip */
 	float: left;
 	filter: invert(1);
 }
 
-div.icon.clickable {
-	cursor: pointer;
-}
-div.icon.clickable.locked {
+.locked {
 	cursor: default;
-	filter: invert(1) var(--low-light);
+	pointer-events: none;
+}
+.locked .input,
+.clickable.locked {
+	filter: var(--low-light);
+}
+.clickable {
+	cursor: pointer;
 }
 
 td,
@@ -154,6 +152,7 @@ th {
 th {
 	background: var(--color-bg);
 	text-align: left;
+	user-select: none;
 }
 
 th#cli-code {
@@ -334,11 +333,6 @@ tr:hover td {
 	visibility: visible;
 }
 
-.icon {
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
 .label {
 	user-select: none;
 }
@@ -399,6 +393,14 @@ tr:hover td {
 
 .upper-case {
 	text-transform: uppercase;
+}
+
+.icon {
+	background-position: center;
+	background-repeat: no-repeat;
+	width: var(--size-icon);
+	min-width: var(--size-icon);
+	min-height: var(--size-icon);
 }
 
 .icon.add {

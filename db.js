@@ -20,6 +20,8 @@ const categories = [
 	{ "name": "Document", "icon": "desc" },
 	{ "name": "Others", "icon": "question" }
 ];
+const priorities = [ "Medium", "Low", "High", "Critical" ];
+const states = [ "-", "Pending", "Going", "Done" ];
 
 var lights_on = localStorage.getItem(my_app + "lights-on");
 
@@ -83,57 +85,73 @@ if (db["projects"] == null) {
 if (db["jobs"] == null) {
 	db["jobs"] = [
 		{
-			"link": "-",
+			"stat": "-",
 			"cate": "Document",
+			"pri": "Medium",
+			"link": "-",
 			"proj": "-",
 			"title": "Prepare weekly meeting",
 			"id": "170222039404497375d5e99bd"
 		},
 		{
-			"link": "-",
+			"stat": "-",
 			"cate": "Meeting",
+			"pri": "Medium",
+			"link": "-",
 			"proj": "-",
 			"title": "Meeting",
 			"id": "17020526178837575716448c2"
 		},
 		{
-			"link": "-",
+			"stat": "-",
 			"cate": "OOO",
+			"pri": "Low",
+			"link": "-",
 			"proj": "-",
 			"title": "Out of the office",
 			"id": "1702052632787ac632ca54e30",
 		},
 		{
-			"link": "-",
+			"stat": "-",
 			"cate": "OOO",
+			"pri": "Low",
+			"link": "-",
 			"proj": "-",
 			"title": "Holiday",
 			"id": "170210275179270bb2065415e"
 		},
 		{
-			"link": "JIRA-1234",
+			"stat": "Pending",
 			"cate": "Task",
+			"pri": "Medium",
+			"link": "JIRA-1234",
 			"proj": "Banana",
 			"title": "Kernel upstream for banana driver",
 			"id": "170196456326777b962c40a58"
 		},
 		{
-			"link": "JIRA-1235",
+			"stat": "Going",
 			"cate": "Feature",
+			"pri": "High",
+			"link": "JIRA-1235",
 			"proj": "Cherry",
 			"title": "AI generated cherry animation on screen",
 			"id": "1701964585951ea0ea0b778cd"
 		},
 		{
-			"link": "JIRA-1236",
+			"stat": "Going",
 			"cate": "Bug",
+			"pri": "Critical",
+			"link": "JIRA-1236",
 			"proj": "Durian",
 			"title": "The color of the durian logo is shifted after suspend/resume",
 			"id": "17019645946997351daa70dca"
 		},
 		{
-			"link": "JIRA-1237",
+			"stat": "Done",
 			"cate": "Others",
+			"pri": "Medium",
+			"link": "JIRA-1237",
 			"proj": "-",
 			"title": "Help Shawn to set up the build code environment",
 			"id": "1702220994270933a32905c41"

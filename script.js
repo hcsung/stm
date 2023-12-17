@@ -5,7 +5,10 @@ function debug(msg) {
 	if (!debugging)
 		return;
 	console.log(msg);
-	//$("body").append($("<div>").text(msg));
+}
+
+function error(msg) {
+	console.log("[ERROR] " + msg);
 }
 
 function activate(obj) {
@@ -151,13 +154,13 @@ function update_theme(btn) {
 
 function update_lock(btn) {
 	if (locked) {
-		btn.addClass("lock");
 		btn.removeClass("unlock");
+		$(".control").addClass("locked");
 		$(".clickable").addClass("locked");
 		$("td.time").addClass("locked");
 	} else {
 		btn.addClass("unlock");
-		btn.removeClass("lock");
+		$(".control").removeClass("locked");
 		$(".clickable").removeClass("locked");
 		$("td.time").removeClass("locked");
 	}
@@ -176,18 +179,17 @@ function render_control(ctl) {
 	});
 	update_theme(btn);
 
-	btn = ctl.children("button.locked");
+	btn = ctl.children("button.lock");
 	btn.on("click", function () {
 		locked = locked ? 0 : 1;
 		update_lock($(this));
-		//localStorage.setItem(my_app + "locked", locked);
 	});
 	update_lock(btn);
 }
 
 function render_weekly(tbl, logs) {
 
-	let tr = $("<tr>").addClass("non-select");
+	let tr = $("<tr>");
 
 	headers.forEach(header => tr.append($("<th>")
 		.addClass(header["key"])

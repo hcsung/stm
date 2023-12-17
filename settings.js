@@ -32,7 +32,6 @@ function invalid_input(input, err, lock) {
 }
 
 function check_input(input, db_name, key) {
-
 	if (!input.val()) {
 		invalid_input(input, "Cannot be empty", db_name);
 		return -1;
@@ -46,236 +45,304 @@ function check_input(input, db_name, key) {
 	return 0;
 }
 
-function new_row(columns, data, name) {
-	let btn = icon("del", true);
+function new_row(main, data) {
+	let db_name = main.data("db");
+	let tb = main.children("table");
+	let th = tb.find("th");
 	let tr = $("<tr>");
-	let td;
 
-	btn.on("click", function () {
-		let tr;
-		let td;
-		let key;
+	th.each(function (i) {
+		let key = $(this).attr("id");
+		let obj;
 
-		if (locked)
-			return;
+		if (!key) { // the first column
+			obj = icon("del", true);
+			obj.on("click", function () {
+				let tr;
+				let td;
+				let key;
 
-		tr = $(this).parent().parent();
-		td = tr.find("td:eq(1)");
-		key = td.attr("data-key");
+				if (locked)
+					return;
 
-		db[name] = $.grep(db[name], function (data) {
-			return !match(td.html(), data[key]);
-		});
-		update_db(name);
-		tr.remove();
-	});
-	tr.append($("<td>").append(btn));
+				tr = $(this).parent().parent();
+				td = tr.find("td:eq(1)");
+				key = tb.find("th:eq(1)").attr("id").split('-')[1];
 
-	columns.forEach(col => {
-		td = $("<td>").text(data[col["key"]]);
-		td.attr("data-key", col["key"]);
-		tr.append(td);
+				db[db_name] = $.grep(db[db_name], function (data) {
+					return !match(td.html(), data[key]);
+				});
+				update_db(db_name);
+				repaint_settings();
+			});
+		} else {
+			key = key.split('-')[1];
+			obj = data[key];
+		}
+		tr.append($("<td>").append(obj));
 	});
 
 	return tr;
 }
 
-function render_settings(tb, name, columns) {
+function render_settings(main, control) {
+	let db_name = main.data("db");
+	let tb = main.children("table");
 	let th = tb.find("th");
-	let tr = $("<tr>");
+	let tr = $("<tr>").addClass("control");
 
 	th.each(function (i) {
-		let id = $(this).attr("id");
-		let obj = undefined;
+		let key = $(this).attr("id");
+		let obj;
 
-		columns.forEach(col => {
-			if (id != col["id"])
-				return;
-			obj = col["obj"]().addClass("input");
-			tr.append($("<td>").append(obj));
-		});
+		debug("rendering setting: " + db_name + ": " + i + ": " + key);
 
-		if (obj)
-			return;
+		if (!key) { // the first column
+			obj = icon("add", true);
+			obj.on("click", function () {
+				let tr;
+				let new_data = {};
+				let valid = 1;
 
-		obj = icon("add", true);
-		obj.on("click", function () {
-			let input;
-			let valid = 1;
-			let new_data = {};
+				if (locked)
+					return;
 
-			if (locked)
-				return;
+				if (locks[db_name])
+					return;
 
-			if (locks[name])
-				return;
+				locks[db_name] = 1;
 
-			locks[name] = 1;
-			input = $(this).parent().parent().find(".input");
+				tr = $(this).parent().parent();
+				tr.find(".input").each(function (i) {
+					let key = $(this).data("key");
+					let check = $(this).data("check");
 
-			columns.forEach(col => {
-				col["obj"] = undefined;
-			});
-
-			input.each(function (i) {
-				$(this).val($.trim($(this).val()));
-				columns.forEach(col => {
-					if ($(this).attr("name") != col["id"])
+					if (!valid)
 						return;
-					col["obj"] = $(this);
+
+					$(this).val($(this).val().trim());
+
+					if (check == 1 && check_input($(this), db_name, key)) {
+						valid = 0;
+						return;
+					}
+					new_data[key] = $(this).val();
 				});
-			});
 
-			columns.forEach(col => {
-				if (!valid || !col["key"])
+				if (!valid)
 					return;
-				if (col["check"] &&
-					check_input(col["obj"], name, col["key"])) {
-					valid = 0;
-					return;
-				}
-				new_data[col["key"]] = col["obj"].val();
+
+				db[db_name].push(new_data);
+				update_db(db_name);
+				repaint_settings();
+
+				locks[db_name] = 0;
 			});
-
-			if (!valid)
-				return;
-
-			columns.forEach(col => {
-				col["obj"].val("");
-			});
-
-			db[name].push(new_data);
-			update_db(name);
-			tb.append(new_row(columns, new_data, name));
-
-			locks[name] = 0;
-		});
+		} else {
+			obj = control.find(ctl => ctl["key"] == key);
+			if (obj) {
+				obj = obj["obj"]();
+				obj.addClass("input");
+				obj.data("key", key.split('-')[1]);
+			} else {
+				error("failed to render '" + db_name + "' : " +
+					"key '" + key + "' not found");
+				obj = $("span").text("[ERROR]");
+			}
+		}
 		tr.append($("<td>").append(obj));
 	});
 	tb.append(tr);
 
-	db[name].forEach(row => {
-		tb.append(new_row(columns, row, name));
+	db[db_name].forEach(data => {
+		tb.append(new_row(main, data));
 	});
 }
 
+function render_settings_cli() {
+	let control = [
+		{
+			"key": "cli-code",
+			"obj": function () {
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "5")
+					.addClass("upper-case")
+					.data("check", "1")
+					.on("keypress", no_special_char)
+					.on("keyup", to_upper_case);
+			}
+		},
+		{
+			"key": "cli-name",
+			"obj": function () {
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "14")
+					.data("check", "1")
+					.on("keypress", function (e) {
+						no_special_char(e, [" "]);
+					});
+			}
+		},
+		{
+			"key": "cli-desc",
+			"obj": function () {
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "80");
+			}
+		}
+	];
+	render_settings($("#settings-cli"), control);
+}
+
 function render_settings_proj() {
-	let name = "projects";
-	let tb = $("#settings-proj").children("table");
-	let columns = [
+	let control = [
 		{
-			"id": "proj-name",
-			"key": "name",
+			"key": "proj-name",
 			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "proj-name");
-				obj.attr("maxlength", "12");
-				obj.on("keypress", no_special_char);
-				return obj;
-			},
-			"check": 1
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "12")
+					.data("check", "1")
+					.on("keypress", function (e) {
+						no_special_char(e, ["+"]);
+					});
+			}
 		},
 		{
-			"id": "proj-chip",
-			"key": "chip",
+			"key": "proj-chip",
 			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "proj-chip");
-				obj.attr("maxlength", "10");
-				obj.addClass("upper-case");
-				obj.on("keypress", function (e) {
-					no_special_char(e, ["-"]);
-				});
-				obj.on("keyup", to_upper_case);
-				return obj;
-			},
-			"check": 1
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "8")
+					.addClass("upper-case")
+					.data("check", "1")
+					.on("keyup", to_upper_case)
+					.on("keypress", function (e) {
+						no_special_char(e, ["-"]);
+					});
+			}
 		},
 		{
-			"id": "proj-cli",
-			"key": "cli",
+			"key": "proj-cli",
 			"obj": function () {
-				let obj = $("<select>");
-				obj.attr("name", "proj-cli");
+				let sel = $("<select>");
 				db["clients"].forEach(cli => {
 					let opt = $("<option>");
-					opt.attr("value", cli["name"]);
-					opt.text(cli["name"]);
-					obj.append(opt);
+					opt.append(cli["name"]);
+					sel.append(opt);
 				});
-				return obj;
-			},
-			"check": 0
+				return sel;
+			}
 		},
 		{
-			"id": "proj-desc",
-			"key": "desc",
+			"key": "proj-desc",
 			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "proj-desc");
-				obj.attr("maxlength", "80");
-				return obj;
-			},
-			"check": 0
-		},
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "80");
+			}
+		}
 	];
-
-	render_settings(tb, name, columns);
+	render_settings($("#settings-proj"), control);
 }
 
-function render_settings_cli() {
-	let name = "clients";
-	let tb = $("#settings-cli").children("table");
-	let columns = [
+function render_settings_job() {
+	let control = [
 		{
-			"id": "cli-code",
-			"key": "code",
+			"key": "job-stat",
 			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "cli-code");
-				obj.attr("maxlength", "5");
-				obj.addClass("upper-case");
-				obj.on("keypress", no_special_char);
-				obj.on("keyup", to_upper_case);
-				return obj;
-			},
-			"check": 1
-		},
-		{
-			"id": "cli-name",
-			"key": "name",
-			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "cli-name");
-				obj.attr("maxlength", "14");
-				obj.on("keypress", function (e) {
-					no_special_char(e, [" "]);
+				let sel = $("<select>");
+				states.forEach(stat => {
+					let opt = $("<option>");
+					opt.text(stat);
+					sel.append(opt);
 				});
-				return obj;
-			},
-			"check": 1
+				return sel;
+			}
 		},
 		{
-			"id": "cli-desc",
-			"key": "desc",
+			"key": "job-cate",
 			"obj": function () {
-				let obj = $("<input>");
-				obj.attr("type", "text");
-				obj.attr("name", "cli-desc");
-				obj.attr("maxlength", "80");
-				return obj;
-			},
-			"check": 0
+				let sel = $("<select>");
+				categories.forEach(cate => {
+					let opt = $("<option>");
+					opt.text(cate["name"]);
+					sel.append(opt);
+				});
+				return sel;
+			}
 		},
+		{
+			"key": "job-pri",
+			"obj": function () {
+				let sel = $("<select>");
+				priorities.forEach(pri => {
+					let opt = $("<option>");
+					opt.text(pri);
+					sel.append(opt);
+				});
+				return sel;
+			}
+		},
+		{
+			"key": "job-link",
+			"obj": function () {
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "12")
+					.addClass("upper-case")
+					.data("check", "1")
+					.on("keyup", to_upper_case)
+					.on("keypress", function (e) {
+						no_special_char(e, ["-"]);
+					});
+			}
+		},
+		{
+			"key": "job-proj",
+			"obj": function () {
+				let sel = $("<select>");
+				db["projects"].forEach(proj => {
+					let opt = $("<option>");
+					opt.text(proj["name"]);
+					opt.val(proj["code"]);
+					sel.append(opt);
+				});
+				return sel;
+			}
+		},
+		{
+			"key": "job-title",
+			"obj": function () {
+				return $("<input>")
+					.attr("type", "text")
+					.attr("maxlength", "80")
+					.data("check", "1");
+			}
+		}
 	];
-
-	render_settings(tb, name, columns);
+	render_settings($("#settings-job"), control);
 }
 
+function repaint_settings() {
+	[
+		$("#settings-job").children("table"),
+		$("#settings-proj").children("table"),
+		$("#settings-cli").children("table"),
+	].forEach(tb => {
+		tb.find("tr").each(function (i) {
+			if (i > 0)
+				$(this).remove();
+		});
+	});
+	render_settings_job();
+	render_settings_proj();
+	render_settings_cli();
+}
+
+render_settings_job();
 render_settings_proj();
 render_settings_cli();

@@ -13,7 +13,7 @@
 		<h1>
 			Simple Gantt Chart
 			<div id="control">
-				<button class="icon locked lock"></button>
+				<button class="icon lock"></button>
 				<button class="icon theme light"></button>
 			</div>
 		</h1>
@@ -22,7 +22,7 @@
 		<a class="label" href="#settings">Settings</a>
 		<div id="weekly" class="tab">
 			<h2>W52</h2>
-			<p>Unlock first, and then tap to mark, long press to cancel.</p>
+			<p>Unlock first, then tap to mark, long press to cancel.</p>
 			<div class="dashboard">
 				<table></table>
 			</div>
@@ -38,11 +38,12 @@
 			<a class="label" href="#settings-proj">Project</a>
 			<a class="label" href="#settings-cli">Client</a>
 			<a class="label" href="#settings-db">DB</a>
-			<div id="settings-job" class="sub-tab">
+			<div id="settings-job" class="sub-tab" data-db="jobs">
 				<table>
 					<tr>
 						<th class="icon"></th>
-						<th id="job-cate">Cate.</th>
+						<th id="job-stat">Status</th>
+						<th id="job-cate">Cate</th>
 						<th id="job-pri">Priority</th>
 						<th id="job-link">Link</th>
 						<th id="job-proj">Project</th>
@@ -50,7 +51,7 @@
 					</tr>
 				</table>
 			</div>
-			<div id="settings-proj" class="sub-tab">
+			<div id="settings-proj" class="sub-tab" data-db="projects">
 				<table>
 					<tr>
 						<th class="icon"></th>
@@ -61,7 +62,7 @@
 					</tr>
 				</table>
 			</div>
-			<div id="settings-cli" class="sub-tab">
+			<div id="settings-cli" class="sub-tab" data-db="clients">
 				<table>
 					<tr>
 						<th class="icon"></th>
