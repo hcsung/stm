@@ -1,4 +1,6 @@
 :root {
+	--hsl-blue: 200;
+	--hsl-green: 80;
 	--hsl-red: 15;
 	--hsl-orange: 36;
 	--hsl-purple: 260;
@@ -461,4 +463,25 @@ tr:hover td {
 
 .icon.unlock {
 	background-image: url("icons/unlock.svg");
+}
+
+.mark {
+	border-radius: var(--size-font);
+	font-family: monospace;
+	font-size: calc(var(--size-font) - 4px);
+	font-weight: bold;
+	text-align: center;
+	padding: 2px;
+}
+.mark.working {
+	background: hsl(var(--hsl-orange), var(--hsl-s-default), var(--hsl-l-dark));
+}
+.mark.pending {
+	background: hsl(var(--hsl-red), var(--hsl-s-default), var(--hsl-l-dark));
+}
+.mark.done {
+	background: hsl(var(--hsl-green), var(--hsl-s-default), var(--hsl-l-dark));
+}
+.mark.todo {
+	background: hsl(0, 0%, calc(var(--hsl-l-black) + var(--hsl-diff) * 3));
 }

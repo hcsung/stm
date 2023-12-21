@@ -20,8 +20,8 @@ const categories = [
 	{ "name": "Document", "icon": "desc" },
 	{ "name": "Others", "icon": "question" }
 ];
-const priorities = [ "Medium", "Low", "High", "Critical" ];
-const states = [ "-", "Pending", "Going", "Done" ];
+const priorities = [ "-", "Low", "Medium", "High", "Critical" ];
+const states = [ "-", "Todo", "Working", "Pending", "Done" ];
 
 var lights_on = localStorage.getItem(my_app + "lights-on");
 
@@ -87,7 +87,7 @@ if (db["jobs"] == null) {
 		{
 			"stat": "-",
 			"cate": "Document",
-			"pri": "Medium",
+			"pri": "Low",
 			"link": "-",
 			"proj": "-",
 			"title": "Prepare weekly meeting",
@@ -96,7 +96,7 @@ if (db["jobs"] == null) {
 		{
 			"stat": "-",
 			"cate": "Meeting",
-			"pri": "Medium",
+			"pri": "Low",
 			"link": "-",
 			"proj": "-",
 			"title": "Meeting",
@@ -105,7 +105,7 @@ if (db["jobs"] == null) {
 		{
 			"stat": "-",
 			"cate": "OOO",
-			"pri": "Low",
+			"pri": "-",
 			"link": "-",
 			"proj": "-",
 			"title": "Out of the office",
@@ -114,7 +114,7 @@ if (db["jobs"] == null) {
 		{
 			"stat": "-",
 			"cate": "OOO",
-			"pri": "Low",
+			"pri": "-",
 			"link": "-",
 			"proj": "-",
 			"title": "Holiday",
@@ -130,7 +130,7 @@ if (db["jobs"] == null) {
 			"id": "170196456326777b962c40a58"
 		},
 		{
-			"stat": "Going",
+			"stat": "Todo",
 			"cate": "Feature",
 			"pri": "High",
 			"link": "JIRA-1235",
@@ -139,7 +139,7 @@ if (db["jobs"] == null) {
 			"id": "1701964585951ea0ea0b778cd"
 		},
 		{
-			"stat": "Going",
+			"stat": "Working",
 			"cate": "Bug",
 			"pri": "Critical",
 			"link": "JIRA-1236",

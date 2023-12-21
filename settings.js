@@ -325,6 +325,28 @@ function render_settings_job() {
 		}
 	];
 	render_settings($("#settings-job"), control);
+
+	let tb = $("#settings-job").children("table");
+
+	tb.find("tr").each(function (i) {
+
+		let target;
+		let text;
+		let div;
+		let obj;
+
+		if (i < 2)
+			return;
+
+		// status
+		id = tb.find("th#job-stat").index();
+		target = $(this).children().eq(id);
+		text = target.text();
+		target.text("");
+		obj = $("<div>").addClass("mark");
+		obj.addClass(text == "-" ? "na" : text.toLowerCase());
+		target.append(obj.text(text));
+	});
 }
 
 function repaint_settings() {
